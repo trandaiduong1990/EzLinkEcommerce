@@ -1,0 +1,38 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="false" %>
+<html>
+<head>
+	<title>Home</title>
+</head>
+<body>
+<h1>
+	Merchant's Page..!  
+</h1>
+
+<table>
+<tr>
+<td>Merchant Number :</td><td><%=request.getParameter("e_MerchantName") %></td>
+</tr>
+<tr>
+<td>Access Code :</td><td><%=request.getParameter("e_AccessCode")%></td>
+</tr>
+<tr>
+<td>Oreder Number :</td><td><%=request.getParameter("e_OrderNo")%></td>
+</tr>
+<tr>
+<td>Merchant Tranx. Ref No :</td><td><%=request.getParameter("e_MerchantTranxRefNo")%></td>
+</tr>
+<tr>
+<td>Amount :</td><td><%=request.getParameter("e_Amount")%></td>
+</tr>
+<tr>
+<td>Remarks :</td><td><%=request.getParameter("e_remarks")%></td>
+</tr>
+
+<tr>
+
+<td>Response Code : </td><td><%=request.getParameter("e_responseCode") %></td>
+</tr>
+</table>
+</body>
+</html>

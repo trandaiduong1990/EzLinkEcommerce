@@ -1,0 +1,83 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<classPathEntry location="E:\\ojdbc6.jar" />
+	<context id="MyBatis3" targetRuntime="MyBatis3">
+
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+			connectionURL="jdbc:oracle:thin:@localhost:1521:orcl" userId="ezlink"
+			
+			password="ezlink">
+		</jdbcConnection>
+		
+		<javaTypeResolver>
+		  <property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="com.wirecard.ezecom.dto"
+			targetProject="../EzLinkEcommerce/src/main/java/">
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.wirecard.ezecom.mapper.dao.xml"
+			targetProject="../EzLinkEcommerce/src/main/java/">
+		</sqlMapGenerator>
+		
+
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.wirecard.ezecom.mapper.dao" targetProject="../EzLinkEcommerce/src/main/java/">
+		</javaClientGenerator>
+
+	
+		
+		<table tableName="MERCHANT" schema="EZLINK" domainObjectName="MerchantDto" enableSelectByExample="false" enableDeleteByExample="false"
+			enableCountByExample="false" enableUpdateByExample="false"
+			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
+			modelType="flat">
+		</table>
+	
+		<table tableName="EMERCHANT_DETAILS" schema="EZLINK" domainObjectName="EMerchantDetailsDto" enableSelectByExample="false" enableDeleteByExample="false"
+			enableCountByExample="false" enableUpdateByExample="true"
+			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="true"
+			modelType="flat">
+		</table>
+			
+		
+		<table tableName="ETRANXLOG" schema="EZLINK" domainObjectName="ETranxLogDto" enableSelectByExample="false" enableDeleteByExample="false"
+			enableCountByExample="false" enableUpdateByExample="false"
+			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
+			modelType="flat">
+		</table>
+		
+		<table tableName="ETRANXCODE" schema="EZLINK" domainObjectName="ETranxCodeDto" enableSelectByExample="false" enableDeleteByExample="false"
+			enableCountByExample="false" enableUpdateByExample="false"
+			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
+			modelType="flat">
+		</table>
+	
+	
+		<table tableName="EERRORLOG" schema="EZLINK" domainObjectName="EErrorLogDto" enableSelectByExample="false" enableDeleteByExample="false"
+			enableCountByExample="false" enableUpdateByExample="false"
+			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
+			modelType="flat">
+		</table>
+		
+		<table tableName="ETRANX_DETAILS" schema="EZLINK" domainObjectName="ETranxDetailsDto" enableSelectByExample="false" enableDeleteByExample="false"
+			enableCountByExample="false" enableUpdateByExample="false"
+			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
+			modelType="flat">
+		</table>
+		<table tableName="BATCH_LOG" schema="ezlink" domainObjectName="EBatchLogDto" enableSelectByExample="false" enableDeleteByExample="false"
+			enableCountByExample="false" enableUpdateByExample="false"
+			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
+			modelType="flat">
+		</table>
+	</context>
+</generatorConfiguration>
+ -->

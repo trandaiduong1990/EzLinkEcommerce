@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wirecard.ezecom.mapper.dao.EBatchLogDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.wirecard.ezecom.dto.EBatchLogDto" >
+    <id column="SNO" property="sno" jdbcType="VARCHAR" />
+    <result column="NO_SUCCESS" property="noSuccess" jdbcType="DECIMAL" />
+    <result column="NO_FAILURE" property="noFailure" jdbcType="DECIMAL" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SNO, NO_SUCCESS, NO_FAILURE, UPDATE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from EZLINK.BATCH_LOG
+    where SNO = #{sno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from EZLINK.BATCH_LOG
+    where SNO = #{sno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wirecard.ezecom.dto.EBatchLogDto" >
+    insert into EZLINK.BATCH_LOG (SNO, NO_SUCCESS, NO_FAILURE, 
+      UPDATE_DATE)
+    values (#{sno,jdbcType=VARCHAR}, #{noSuccess,jdbcType=DECIMAL}, #{noFailure,jdbcType=DECIMAL}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wirecard.ezecom.dto.EBatchLogDto" >
+    insert into EZLINK.BATCH_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sno != null" >
+        SNO,
+      </if>
+      <if test="noSuccess != null" >
+        NO_SUCCESS,
+      </if>
+      <if test="noFailure != null" >
+        NO_FAILURE,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sno != null" >
+        #{sno,jdbcType=VARCHAR},
+      </if>
+      <if test="noSuccess != null" >
+        #{noSuccess,jdbcType=DECIMAL},
+      </if>
+      <if test="noFailure != null" >
+        #{noFailure,jdbcType=DECIMAL},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wirecard.ezecom.dto.EBatchLogDto" >
+    update EZLINK.BATCH_LOG
+    <set >
+      <if test="noSuccess != null" >
+        NO_SUCCESS = #{noSuccess,jdbcType=DECIMAL},
+      </if>
+      <if test="noFailure != null" >
+        NO_FAILURE = #{noFailure,jdbcType=DECIMAL},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where SNO = #{sno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wirecard.ezecom.dto.EBatchLogDto" >
+    update EZLINK.BATCH_LOG
+    set NO_SUCCESS = #{noSuccess,jdbcType=DECIMAL},
+      NO_FAILURE = #{noFailure,jdbcType=DECIMAL},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where SNO = #{sno,jdbcType=VARCHAR}
+  </update>
+</mapper>

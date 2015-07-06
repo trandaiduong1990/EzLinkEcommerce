@@ -204,14 +204,14 @@
 						
 						//alert(response);
 						}
-						else if(timeout == true || auto == false){
+						else if(auto == false){
 							$('#info').html("<B>STATUS :  YOUR PAYMENT HAS NOT COMPLETED YET - PLEASE PROCEEED WITH STEP 2 AGAIN </B> ");	
 						}
 					},
 					error : function(xhr, status, error) {
 						alert( "failed" );
 						//alert(xhr.responseText);
-						if(timeout == true || auto == false) {
+						if(auto == false) {
 							$('#info').html("<B>FAILED - PLEASE PROCEED WITH STEP 2 AGAIN </B> ");
 						}
 					}

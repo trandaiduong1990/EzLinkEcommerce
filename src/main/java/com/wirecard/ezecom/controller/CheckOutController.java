@@ -441,16 +441,19 @@ public class CheckOutController {
 	@RequestMapping(value="/check.htm", method = RequestMethod.POST)
 	public @ResponseBody String checkStatus(@ModelAttribute("item") ItemBean itemBean) {
 		boolean status;
+		Date dateNow = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		String date = dateFormat.format(dateNow);
 		System.out.println("+++++++++AJAX++++++++++++++++++++");
 		System.out.println("+++++++++values++++++++++++++++++++"+itemBean.getMerchantTranxRefNo()+" : "+itemBean.getOrderNo());
-		status=objValidationService.checkPaymentStatus(itemBean.getMerchantNo(), itemBean.getMerchantTranxRefNo(), itemBean.getOrderNo(), itemBean.getAmount());
+		status=objValidationService.checkPaymentStatus(itemBean.getMerchantNo(), itemBean.getMerchantTranxRefNo(), itemBean.getOrderNo(), itemBean.getAmount(), dateNow);
 		System.out.println("+++++++++AJAX+++++STATUS+++++++++++++++"+status);
 		//itemBean.setImgQRData(request.getAttribute("e_imgQRData"));
 		//itemBean.setResponseCode(StringConstants.ResponseCodes.QRCODE_GENERATION_FAILED);
 		//itemBean.setErrorRemark(StringConstants.ResponseCodes.QRCODE_GENERATION_FAILED);
 		if(status == true){
 			System.out.println("+++++++++++++RETURN 1+++++++++++++++"+status);
-			return "1";
+			return date;
 		}
 		else{
 			System.out.println("+++++++++++++RETURN 0+++++++++++++++"+status);

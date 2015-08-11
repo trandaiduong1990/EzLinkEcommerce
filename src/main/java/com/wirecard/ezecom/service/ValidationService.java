@@ -1,5 +1,6 @@
 package com.wirecard.ezecom.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.wirecard.ezecom.dto.EMerchantDetailsDto;
@@ -15,6 +16,6 @@ public interface ValidationService {
 	public String valdateMerchantNumber(String merchantNo);
 	public String valdateAccessCode(String merchantNo,String accessCode);
 	public String isUniqueTransaction(String merchantNo,String merchantTranxRefNo,String orderNo);
-	public boolean checkPaymentStatus(String merchantNo,String merchantTranxRefNo,String orderNo,double amount);
+	public boolean checkPaymentStatus(String merchantNo,String merchantTranxRefNo,String orderNo,double amount, Date dateNow);
 
 }

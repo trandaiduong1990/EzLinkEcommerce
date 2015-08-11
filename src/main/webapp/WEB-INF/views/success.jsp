@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="java.util.Date"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -105,7 +106,7 @@
 			  	<input type="hidden" name="e_HashAlgo" value="SHA256" />
 			  	<input type="hidden" name="e_Amount" value="${item.amount}"/>
 			  	<input type="hidden" name="e_HashValue" value="${param.e_HashValue}"/>
-			  	
+			  	<input type="hidden" name="e_DateTime1" id="e_DateTime1" value=""/>
 
 						<p class="title"><B>Step 3: Once Payment completed via Mobile Application
 						Please Click on Next button</B></p>
@@ -122,6 +123,7 @@
 						<input type="hidden" name="e_MerchantNo" id="e_MerchantNo" value="${item.merchantNo}" />
 						<input type="hidden" name="e_OrderNo" id="e_OrderNo" value="${item.orderNo}" />
 						<input type="hidden" name="e_Amount" id="e_Amount" value="${item.amount}"/>
+						<input type="hidden" name="e_DateTime" id="e_DateTime" value=""/>
 						<div style="text-align: center;">
 							<a href="#" class="button red" onclick="submit();">Next</a> <a
 								href="#" class="button">Cancel</a>
@@ -192,10 +194,12 @@
 					type : "POST",
 	 
 					success : function(response) {
-						if(response=="1"){
+						if(response!="0"){
 							checkStatus = false;
 						//$('#info').html("STATUS :   PAYMENT COMPLETED SUCCESSFULLY " +response);
 						$('#info').html("STATUS :   PAYMENT COMPLETED SUCCESSFULLY ");
+						$('input[name="e_DateTime"]').val(response);
+						$('input[name="e_DateTime1"]').val(response);
 						printWindow();
 						
 						//var url="/ezecom/merchantHome.jsp";
@@ -209,7 +213,7 @@
 						}
 					},
 					error : function(xhr, status, error) {
-						alert( "failed" );
+						//alert( "failed" );
 						//alert(xhr.responseText);
 						if(auto == false && timeout == false) {
 							$('#info').html("<B>FAILED - PLEASE PROCEED WITH STEP 2 AGAIN </B> ");

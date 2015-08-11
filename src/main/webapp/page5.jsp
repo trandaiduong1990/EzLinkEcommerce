@@ -47,7 +47,8 @@
 	<tr></tr>
 	<tr><td style="text-align: right;">Order No : </td><td><div id="orderNo"></div></td></tr>
 	<tr></tr>		
-<tr><td style="text-align: right;">Amount (SGD) : </td><td><div id="amount"></div></td></tr>
+	<tr><td style="text-align: right;">Amount (SGD) : </td><td><div id="amount"></div></td></tr>
+	<tr><td style="text-align: right;">Date Time : </td><td><div id="dateTime"></div></td></tr>
 	<tr></tr>	
 
 
@@ -114,6 +115,9 @@ function initializeMainDiv() {
     window.opener.document.getElementById("e_OrderNo").value;
 	document.getElementById("amount").innerHTML = 
     window.opener.document.getElementById("e_Amount").value;
+	document.getElementById("dateTime").innerHTML = 
+    window.opener.document.getElementById("e_DateTime").value;
+	 
 	 
 	//window.opener.document.getElementId("payment").submit();
 	//alert("Moving to Merxhant site..");

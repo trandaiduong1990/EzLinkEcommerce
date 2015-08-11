@@ -58,6 +58,9 @@
 <tr>
 <td><B>Amount :</B></td><td><%=request.getParameter("e_Amount")%></td>
 </tr>
+<tr>
+<td><B>Date Time :</B></td><td><%=request.getParameter("e_DateTime1")%></td>
+</tr>
 
 </table>
 					

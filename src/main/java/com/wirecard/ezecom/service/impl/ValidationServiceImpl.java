@@ -128,7 +128,7 @@ public class ValidationServiceImpl implements ValidationService {
 	}
 
 	public boolean checkPaymentStatus(String merchantNo,
-			String merchantTranxRefNo, String orderNo, double amount) {
+			String merchantTranxRefNo, String orderNo, double amount, Date dateNow) {
 		
 		ETranxLogDto objETranxLogDto;
 		try {
@@ -149,8 +149,7 @@ public class ValidationServiceImpl implements ValidationService {
 				objETranxLogDto.getResponseCode().equals(StringConstants.ResponseCodes.SUCCESS_CODE))
 		{
 			// Update tranx_status is from 'R' to 'S'
-			Date dateTime = new Date();
-			objETranxLogDto.setDatetime(dateTime);
+			objETranxLogDto.setDatetime(dateNow);
 			int update = objETranxLogDtoMapper.updateTranxStatus(objETranxLogDto);
 			if(update == 1) {
 				System.out.println("+++++UPDATE TRANX_STATUS SUCCESS+++++++++++++++++++++++");

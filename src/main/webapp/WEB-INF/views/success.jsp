@@ -169,7 +169,7 @@
 		setTimeout(function(){ 
 			timeout = true;
 			clearInterval(interval);
-			$('#info').html("<B>STATUS: PAYMENT TIMEOUT.<B>"); }, 130000);
+			$('#info').html("<B>STATUS: PAYMENT TIMEOUT.<B>"); }, 250000);
 	});
 	//$(document).ready(function() {
 		//$('#status').submit(

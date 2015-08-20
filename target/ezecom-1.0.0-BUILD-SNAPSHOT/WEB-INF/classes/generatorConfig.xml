@@ -35,8 +35,8 @@
 		</javaClientGenerator>
 
 	
-		
-		<!-- <table tableName="MERCHANT" schema="EZLINK" domainObjectName="MerchantDto" enableSelectByExample="false" enableDeleteByExample="false"
+		<!-- 
+		<table tableName="MERCHANT" schema="EZLINK" domainObjectName="MerchantDto" enableSelectByExample="false" enableDeleteByExample="false"
 			enableCountByExample="false" enableUpdateByExample="false"
 			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
 			modelType="flat">
@@ -72,8 +72,13 @@
 			enableCountByExample="false" enableUpdateByExample="false"
 			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
 			modelType="flat">
-		</table> -->
+		</table>
 		<table tableName="BATCH_LOG" schema="ezlink" domainObjectName="EBatchLogDto" enableSelectByExample="false" enableDeleteByExample="false"
+			enableCountByExample="false" enableUpdateByExample="false"
+			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
+			modelType="flat">
+		</table> -->
+		<table tableName="V_EZ_BLACKLIST" schema="EZLINK" domainObjectName="ViewEZBlacklistDto" enableSelectByExample="false" enableDeleteByExample="false"
 			enableCountByExample="false" enableUpdateByExample="false"
 			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
 			modelType="flat">

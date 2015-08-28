@@ -223,7 +223,7 @@
 			$("#subtotal1").html(subtotal1);
 			$("#subtotal2").html(subtotal2);
 			//$("#e_Amount").html(total);
-			$("#e_Amount").val(total);
+			$("#e_Amount").val(parseFloat(Math.round(total * 100) / 100).toFixed(2));
 		}
 	}
 

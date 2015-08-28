@@ -14,6 +14,12 @@
 	rel='stylesheet' type='text/css'>
 
 </head>
+<script type = "text/javascript" >
+    history.pushState(null, null, 'merchantHome.jsp');
+    window.addEventListener('popstate', function(event) {
+    history.pushState(null, null, 'merchantHome.jsp');
+    });
+    </script>
 <body>
 	<div class="container">
 
@@ -50,7 +56,7 @@
 <td><B>Access Code :</B></td><td><%=request.getParameter("e_AccessCode")%></td>
 </tr>
 <tr>
-<td><B>Oreder Number :</B></td><td><%=request.getParameter("e_OrderNo")%></td>
+<td><B>Order Number :</B></td><td><%=request.getParameter("e_OrderNo")%></td>
 </tr>
 <tr>
 <td><B>Merchant Tranx. Ref No :</B></td><td><%=request.getParameter("e_MerchantTranxRefNo")%></td>

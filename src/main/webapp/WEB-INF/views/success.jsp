@@ -21,7 +21,7 @@
 		<div class="wrapper">
 
 			<div class="content">
-				<form id="payment" method="post" action="/ezecom/merchantHome.jsp">
+				<form id="payment" method="post"  action="/ezecom/merchantHome.jsp">
 					<div class="" style="width: 20%; float: left;">
 						<div>
 							<img src="${request.contextPath}img/wirecard.jpg"
@@ -70,7 +70,7 @@
 							<tr>
 								<td style="text-align: left;"><B>Merchant Tranx. Ref No :</B></td>
 								<td>${item.merchantTranxRefNo}</td>
-								<td style="text-align: right;"><B>Oreder Number :</B></td>
+								<td style="text-align: right;"><B>Order Number :</B></td>
 								<td>${item.orderNo}</td>
 							</tr>
 							
@@ -109,12 +109,14 @@
 			  	<input type="hidden" name="e_DateTime1" id="e_DateTime1" value=""/>
 
 						<p class="title"><B>Step 3: Once Payment completed via Mobile Application
-						Please Click on Next button</B></p>
+						Please click on "Next" button if webpage is not directed in 10 seconds</B></p>
 						</form>
 						<form id="status" method="post" action="/ezecom/check.htm"> 
 						<!--<form id="status" method="post" action="/ezecom-1.0.0-BUILD-SNAPSHOT/check.htm"> -->
 						<table>
 						
+						<tr><td colspan="2"><span class="title"><B>Transaction timeout: </B></span><span id="time" style="color: red;font-size: 12pt;"></span></td></tr>
+						 
 						 <tr><td colspan="2"><div  id="info" align="center" style="color: red;font-size: 12pt;"></div></td></tr>
 						
 						
@@ -160,90 +162,127 @@
 		//$("form#status").attr('action', url);
 		//$("form#status").submit();
 	}
-	
+
 	var timeout = false;
 	var checkStatus = true;
-	
+
 	$(document).ready(function() {
-		var interval = setInterval(function(){ if(checkStatus==true) {checkPaymentStatus(true); }}, 5000);
-		setTimeout(function(){ 
+		var fiveMinutes = 240,
+		display = $('#time');
+		startTimer(fiveMinutes, display);
+		
+		var interval = setInterval(function() {
+			if (checkStatus == true) {
+				checkPaymentStatus(true);
+			}
+		}, 5000);
+		setTimeout(function() {
 			timeout = true;
+			alert("Timeout");
 			clearInterval(interval);
-			$('#info').html("<B>STATUS: PAYMENT TIMEOUT.<B>"); }, 250000);
+		}, 240000);
 	});
 	//$(document).ready(function() {
-		//$('#status').submit(
-			//function(event) {
-				function checkPaymentStatus(auto){
-					//alert("test2");
-					
-					var merchantTranxRefNo=$('#e_MerchantTranxRefNo').val();
-					var merchantNo=$('#e_MerchantNo').val();
-					var orderNo=$('#e_OrderNo').val();
-					var amount=$('#e_Amount').val();
-					//alert("merchantNo : "+merchantNo);
-					/*
-					var data = 'firstname='
-						+ encodeURIComponent('myfirst')
-						+ '&amp;lastname='
-						+ encodeURIComponent('myLast');
-						alert($("#status").attr("action"));*/
-				$.ajax({
+	//$('#status').submit(
+	//function(event) {
+	function checkPaymentStatus(auto) {
+		//alert("test2");
+
+		var merchantTranxRefNo = $('#e_MerchantTranxRefNo').val();
+		var merchantNo = $('#e_MerchantNo').val();
+		var orderNo = $('#e_OrderNo').val();
+		var amount = $('#e_Amount').val();
+		//alert("merchantNo : "+merchantNo);
+		/*
+		var data = 'firstname='
+			+ encodeURIComponent('myfirst')
+			+ '&amp;lastname='
+			+ encodeURIComponent('myLast');
+			alert($("#status").attr("action"));*/
+		$
+				.ajax({
 					url : $("#status").attr("action"),
-					data :"merchantTranxRefNo=" + merchantTranxRefNo +"&merchantNo=" + merchantNo +"&orderNo=" + orderNo +"&amount=" + amount,
+					data : "merchantTranxRefNo=" + merchantTranxRefNo
+							+ "&merchantNo=" + merchantNo + "&orderNo="
+							+ orderNo + "&amount=" + amount,
 					type : "POST",
-	 
+
 					success : function(response) {
-						if(response!="0"){
+						if (response != "0") {
 							checkStatus = false;
-						//$('#info').html("STATUS :   PAYMENT COMPLETED SUCCESSFULLY " +response);
-						$('#info').html("STATUS :   PAYMENT COMPLETED SUCCESSFULLY ");
-						$('input[name="e_DateTime"]').val(response);
-						$('input[name="e_DateTime1"]').val(response);
-						printWindow();
-						
-						//var url="/ezecom/merchantHome.jsp";
-						//$("form#payment").attr('action', url);
-						//$("form#payment").submit();
-						
-						//alert(response);
-						}
-						else if(auto == false && timeout == false){
-							$('#info').html("<B>STATUS :  YOUR PAYMENT HAS NOT COMPLETED YET - PLEASE PROCEEED WITH STEP 2 AGAIN </B> ");	
+							//$('#info').html("STATUS :   PAYMENT COMPLETED SUCCESSFULLY " +response);
+							$('#info')
+									.html(
+											"STATUS :   PAYMENT COMPLETED SUCCESSFULLY ");
+							$('input[name="e_DateTime"]').val(response);
+							$('input[name="e_DateTime1"]').val(response);
+							printWindow();
+
+							//var url="/ezecom/merchantHome.jsp";
+							//$("form#payment").attr('action', url);
+							//$("form#payment").submit();
+
+							//alert(response);
+						} else if (auto == false && timeout == false) {
+							$('#info')
+									.html(
+											"<B>STATUS :  YOUR PAYMENT HAS NOT COMPLETED YET - PLEASE PROCEEED WITH STEP 2 AGAIN </B> ");
 						}
 					},
 					error : function(xhr, status, error) {
-						//alert( "failed" );
+						alert( "failed" );
 						//alert(xhr.responseText);
-						if(auto == false && timeout == false) {
-							$('#info').html("<B>FAILED - PLEASE PROCEED WITH STEP 2 AGAIN </B> ");
+						if (auto == false && timeout == false) {
+							$('#info')
+									.html(
+											"<B>FAILED - PLEASE PROCEED WITH STEP 2 AGAIN </B> ");
 						}
 					}
-					
+
 				});
-						
-				return false;
-				}
-			//});
-		//});
-	
-				function printWindow() {
-					//alert("clear interval");
-					
-					var w = window.open('page5.jsp', 'mywindow', 'width=800, height=500');
-					//var url="/ezecom/merchantHome.jsp";
-					//$("form#payment").attr('action', url);
-					//$("form#payment").submit();
-					//window.open('', 'TheWindow');
-					//document.getElementById('reciept').submit();
-					
-					//alert("Redirecting to Merchant...");
-					//var url="/ezecom/merchantHome.jsp";
-					//	$("form#payment").attr('action', url);
-					//	$("form#payment").submit();
-					
-				}
-				
-				
+
+		return false;
+	}
+	//});
+	//});
+
+	function printWindow() {
+		//alert("clear interval");
+
+		var w = window.open('page5.jsp', 'mywindow', 'width=800, height=500');
+		//var url="/ezecom/merchantHome.jsp";
+		//$("form#payment").attr('action', url);
+		//$("form#payment").submit();
+		//window.open('', 'TheWindow');
+		//document.getElementById('reciept').submit();
+
+		//alert("Redirecting to Merchant...");
+		//var url="/ezecom/merchantHome.jsp";
+		//	$("form#payment").attr('action', url);
+		//	$("form#payment").submit();
+
+	}
+
+	function startTimer(duration, display) {
+	    var timer = duration, minutes, seconds;
+	    showTimeInterval = setInterval(function () {
+	        minutes = parseInt(timer / 60, 10);
+	        seconds = parseInt(timer % 60, 10);
+
+	        minutes = minutes < 10 ? "0" + minutes : minutes;
+	        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+	        display.text(minutes + ":" + seconds);
+
+	        if (--timer < 0) {
+	        	$('#info').html("<B>STATUS: PAYMENT TIMEOUT.<B>");
+	            //timer = duration;
+	        	setTimeout(function() {
+	    			clearInterval(showTimeInterval);
+	    		}, 0);
+	        	//display.text("00:00");
+	        }
+	    }, 1000);
+	} 
 </script>
 </html>

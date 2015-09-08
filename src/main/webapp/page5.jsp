@@ -38,7 +38,7 @@
 				<div class="modal-body">
 					<div style="width: 100%; text-align: center;">
 						<p style="color: #1abc9c; font-size: 20px;">Payment
-							Reciept!</p>
+							Reciept</p>
 							
 	<table class="center" cellpadding="10">	
 	<tr><td style="text-align: right;">Merchant No : </td><td><div id="merchNo"></div></td></tr>

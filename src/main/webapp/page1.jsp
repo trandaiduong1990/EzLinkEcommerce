@@ -220,8 +220,8 @@
 			var total = (price1Num * quantity1Num)
 					+ (price2Num * quantity2Num);
 
-			$("#subtotal1").html(subtotal1);
-			$("#subtotal2").html(subtotal2);
+			$("#subtotal1").html(parseFloat(Math.round(subtotal1 * 100) / 100).toFixed(2));
+			$("#subtotal2").html(parseFloat(Math.round(subtotal2 * 100) / 100).toFixed(2));
 			//$("#e_Amount").html(total);
 			$("#e_Amount").val(parseFloat(Math.round(total * 100) / 100).toFixed(2));
 		}

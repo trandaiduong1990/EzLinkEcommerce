@@ -15,6 +15,12 @@
 <link href='http://fonts.googleapis.com/css?family=Open+Sans'
 	rel='stylesheet' type='text/css'>
 </head>
+<script type = "text/javascript" >
+    history.pushState(null, null, 'success.jsp');
+    window.addEventListener('popstate', function(event) {
+    history.pushState(null, null, 'success.jsp');
+    });
+</script>
 <body>
 	<div class="container">
 
@@ -108,8 +114,8 @@
 			  	<input type="hidden" name="e_HashValue" value="${param.e_HashValue}"/>
 			  	<input type="hidden" name="e_DateTime1" id="e_DateTime1" value=""/>
 
-						<p class="title"><B>Step 3: Once Payment completed via Mobile Application
-						Please click on "Next" button if webpage is not directed in 10 seconds</B></p>
+						<p class="title"><B>Step 3: Once Payment completed via Mobile Application.
+						Please click on "Next" button if confirmation receipt is not pop-up</B></p>
 						</form>
 						<form id="status" method="post" action="/ezecom/check.htm"> 
 						<!--<form id="status" method="post" action="/ezecom-1.0.0-BUILD-SNAPSHOT/check.htm"> -->
@@ -178,7 +184,6 @@
 		}, 5000);
 		setTimeout(function() {
 			timeout = true;
-			alert("Timeout");
 			clearInterval(interval);
 		}, 240000);
 	});

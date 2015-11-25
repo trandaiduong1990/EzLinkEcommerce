@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -65,20 +66,33 @@ public class CheckOutController {
 	@Autowired
 	private UnSuccessfullValidationService objUnSuccessfullValidationService;
 
-	@RequestMapping(value="/index.htm", method = RequestMethod.POST)
+	@RequestMapping(value="/payez.htm", method = RequestMethod.POST)
 	public String checkOut(@ModelAttribute("item") ItemBean itemBean,
 			BindingResult result, HttpServletRequest request) {
 
 		String uniqueTransactionFlag;
 		String validateAccessCodeFlag, validateMerchantFlag, responseCode;
-
+		String returnUrl;
 		
 		//Creating Bean from User Request/Form -local method
 		createItemBean(itemBean,request);
 		
+		//Get return_url merchant
+		returnUrl = objValidationService
+				.getReturnUrl(itemBean.getMerchantNo());
+		itemBean.setReturnUrl(returnUrl);
+		
 		// Form Validation
 		objItemValidator.validate(itemBean, result);
 		if (result.hasErrors()) {
+			objETranxLogDto = createETranxLogDto(itemBean);
+			objETranxLogDto.setAmount(0.0);
+			objETranxLogDto
+					.setResponseCode(StringConstants.ResponseCodes.REQUIRED_FIELD_MISSING);
+			objETranxLogDto.setOrderInfo(StringConstants.ErrorRemarks.FIELD_MISSING);
+			responseCode = objUnSuccessfullValidationService
+					.insertETranxLog(objETranxLogDto);
+			
 			itemBean.setResponseCode(StringConstants.ResponseCodes.REQUIRED_FIELD_MISSING);
 			itemBean.setErrorRemark(StringConstants.ErrorRemarks.FIELD_MISSING);
 			return StringConstants.JspPages.ERROR_PAGE;
@@ -121,6 +135,8 @@ public class CheckOutController {
 		// Date validation
 		itemBean.setValidatedMerchantTranxDate(objItemValidator.validateDate(
 				itemBean.getDateTime(), result));
+		//set datenow for test
+//		itemBean.setValidatedMerchantTranxDate(new Date());
 		if (result.hasErrors()) {
 			itemBean.setValidatedMerchantTranxDate(new Date());
 			objETranxLogDto = createETranxLogDto(itemBean);
@@ -136,14 +152,12 @@ public class CheckOutController {
 		}
 
 		// Amount Validation
-		String amt = (String) request
-				.getParameter(StringConstants.MerchantForm.AMOUNT);
-		objItemValidator.validateAmount(amt, result);
+		objItemValidator.validateAmount(itemBean.getAmount(), result);
 		if (result.hasErrors()) {
 
 			objETranxLogDto = createETranxLogDto(itemBean);
 			objETranxLogDto.setAmount(0.0);
-			objETranxLogDto.setOrderInfo(StringConstants.ErrorRemarks.INVALID_AMOUNT+" : "+amt);
+			objETranxLogDto.setOrderInfo(StringConstants.ErrorRemarks.INVALID_AMOUNT+" : "+itemBean.getAmount());
 			objETranxLogDto
 					.setResponseCode(StringConstants.ResponseCodes.INVALID_AMOUNT);
 			responseCode = objUnSuccessfullValidationService
@@ -152,12 +166,10 @@ public class CheckOutController {
 			itemBean.setErrorRemark(StringConstants.ErrorRemarks.INVALID_AMOUNT);
 			return StringConstants.JspPages.ERROR_PAGE;
 		}
-		itemBean.setAmount(Double.valueOf(request.getParameter("e_Amount")));
 
-		// Validating Merchant tranx Ref number
+		// Validating Unique Tranx
 		uniqueTransactionFlag = objValidationService.isUniqueTransaction(
-				itemBean.getMerchantNo(), itemBean.getMerchantTranxRefNo(),
-				itemBean.getOrderNo());
+				itemBean.getMerchantNo(),itemBean.getOrderNo());
 
 		if (StringConstants.Validation.NON_UNIQUE_TRANSACTION
 				.equals(uniqueTransactionFlag)) {
@@ -167,11 +179,11 @@ public class CheckOutController {
 			if (result.hasErrors()) {
 				objETranxLogDto = createETranxLogDto(itemBean);
 				objETranxLogDto
-						.setResponseCode(StringConstants.ResponseCodes.INVALID_TRANSACTION_REFERENCE_NUMBER);
+						.setResponseCode(StringConstants.ResponseCodes.NON_UNIQUE_TRANSACTION);
 				responseCode = objUnSuccessfullValidationService
 						.insertETranxLog(objETranxLogDto);
 				itemBean.setResponseCode(responseCode);
-				itemBean.setErrorRemark(StringConstants.ErrorRemarks.INVALID_TRANSACTION_REFERENCE_NUMBER);
+				itemBean.setErrorRemark(StringConstants.ErrorRemarks.NON_UNIQUE_TRANSACTION);
 				return StringConstants.JspPages.ERROR_PAGE;
 			}
 		} else if (StringConstants.ResponseCodes.ERROR_CODE
@@ -198,11 +210,11 @@ public class CheckOutController {
 				objETranxLogDto = createETranxLogDto(itemBean);
 				objETranxLogDto
 						.setResponseCode(StringConstants.ResponseCodes.INVALID_ACCESS_CODE);
-				//responseCode = objUnSuccessfullValidationService
-				//		.insertETranxLog(objETranxLogDto);
-				ETranxLogDto objSuccessfulETranxLogDto = objSuccessfullValidationService
+				responseCode = objUnSuccessfullValidationService
 						.insertETranxLog(objETranxLogDto);
-				itemBean.setResponseCode(objSuccessfulETranxLogDto.getResponseCode());
+//				ETranxLogDto objSuccessfulETranxLogDto = objSuccessfullValidationService
+//						.insertETranxLog(objETranxLogDto);
+				itemBean.setResponseCode(responseCode);
 				itemBean.setErrorRemark(StringConstants.ErrorRemarks.INVALID_ACCESS_CODE);
 
 				return StringConstants.JspPages.ERROR_PAGE;
@@ -220,25 +232,49 @@ public class CheckOutController {
 				return StringConstants.JspPages.ERROR_PAGE;
 			}
 		}
-/*
-		//Validate tranx code
-		System.out.println("********************TRANX CODE***********"+itemBean.getTransactionCode());
-				if(!(itemBean.getTransactionCode().equalsIgnoreCase(StringConstants.Validation.TRANX_CODE_PAY)||
-						itemBean.getTransactionCode().equalsIgnoreCase(StringConstants.Validation.TRANX_CODE_EQUERY))){
-					objETranxLogDto = createETranxLogDto(itemBean);
-					objETranxLogDto
-							.setResponseCode(StringConstants.ResponseCodes.INVALID_TRANSACTION_CODE);
-					responseCode = objUnSuccessfullValidationService
-							.insertETranxLog(objETranxLogDto);
-					objETransactionValidator.isValidTransactionCodevalidation(StringConstants.Validation.INVALID_TRANSACTION_CODE, result);
-					if (result.hasErrors()) {
-					itemBean.setResponseCode(responseCode);
-					itemBean.setErrorRemark(StringConstants.ErrorRemarks.INVALID_TRANX_CODE);
-					return StringConstants.JspPages.ERROR_PAGE;
-				}
-				}
-				*/
-			/*
+
+		// Validate Tranx Code
+		System.out.println("********************TRANX CODE***********"
+				+ itemBean.getTransactionCode());
+		if (!(itemBean.getTransactionCode().equalsIgnoreCase(
+				StringConstants.Validation.TRANX_CODE_PAY))) {
+			objETranxLogDto = createETranxLogDto(itemBean);
+			objETranxLogDto
+					.setResponseCode(StringConstants.ResponseCodes.INVALID_TRANSACTION_CODE);
+			responseCode = objUnSuccessfullValidationService
+					.insertETranxLog(objETranxLogDto);
+			objETransactionValidator
+					.isValidTransactionCodevalidation(
+							StringConstants.Validation.INVALID_TRANSACTION_CODE,
+							result);
+			if (result.hasErrors()) {
+				itemBean.setResponseCode(responseCode);
+				itemBean.setErrorRemark(StringConstants.ErrorRemarks.INVALID_TRANX_CODE);
+				return StringConstants.JspPages.ERROR_PAGE;
+			}
+		}
+				
+		// Validate Currency
+		System.out.println("********************TRANX CODE***********"
+				+ itemBean.getCurrency());
+		if (!(itemBean.getCurrency().equalsIgnoreCase(
+				StringConstants.Validation.CURRENCY))) {
+			objETranxLogDto = createETranxLogDto(itemBean);
+			objETranxLogDto
+					.setResponseCode(StringConstants.ResponseCodes.INVALID_CURRENCY);
+			responseCode = objUnSuccessfullValidationService
+					.insertETranxLog(objETranxLogDto);
+			objETransactionValidator
+					.isValidCurrency(
+							StringConstants.Validation.INVALID_CURRENCY,
+							result);
+			if (result.hasErrors()) {
+				itemBean.setResponseCode(responseCode);
+				itemBean.setErrorRemark(StringConstants.ErrorRemarks.INVALID_CURRENCY);
+				return StringConstants.JspPages.ERROR_PAGE;
+			}
+		}
+		
 		// Validate Hash Code
 		objHashCodeValidator.validate(itemBean, result);
 		if (result.hasErrors()) {
@@ -250,7 +286,7 @@ public class CheckOutController {
 					.insertETranxLog(objETranxLogDto);
 			itemBean.setResponseCode(objSuccessfulETranxLogDto.getResponseCode());
 			if(StringConstants.ResponseCodes.INVALID_TRANSACTION_CODE.equalsIgnoreCase(objSuccessfulETranxLogDto.getResponseCode())){
-			itemBean.setErrorRemark(StringConstants.ErrorRemarks.INVALID_TRANX_CODE);
+				itemBean.setErrorRemark(StringConstants.ErrorRemarks.INVALID_TRANX_CODE);
 			}
 			else{
 				itemBean.setErrorRemark(StringConstants.ErrorRemarks.INVALID_HASH_CODE);
@@ -258,7 +294,7 @@ public class CheckOutController {
 			return StringConstants.JspPages.ERROR_PAGE;
 		}
 		System.out.println("+++++++++++++++VALID HASH CODE+++++++++++++++++++++++");
-		*/
+		
 		//Tranx code validation inside successfull
 		// SUCCESSFUL
 		System.out.println("Item Bean Response  code : "+itemBean.getResponseCode());
@@ -362,17 +398,20 @@ public class CheckOutController {
 		objETranxLogDto.setTranxcode(itemBean.getTransactionCode());
 
 		objETranxLogDto.setMerchantNo(itemBean.getMerchantNo());
-		objETranxLogDto.setMerchantRefno(itemBean.getMerchantTranxRefNo());
 		objETranxLogDto.setOrderNo(itemBean.getOrderNo());
-		objETranxLogDto.setAmount(itemBean.getAmount());
+		try {
+			objETranxLogDto.setAmount(Double.parseDouble(itemBean.getAmount()));
+		} catch(Exception e) {
+		}
+		
 		objETranxLogDto.setSecurehashType(itemBean.getHashAlgo());
-		objETranxLogDto.setVersion(itemBean.getVersion());
+		objETranxLogDto.setCurrency(Integer.parseInt(itemBean.getCurrency()));
 		if (itemBean.getValidatedMerchantTranxDate() != null) {
 			objETranxLogDto.setMerchantTranxDate(itemBean
 					.getValidatedMerchantTranxDate());
 		}
 		objETranxLogDto.setTranxStatus(StringConstants.Validation.TRANX_STATUS_QR);
-
+	    objETranxLogDto.setRrn(itemBean.getTranxRefNo());
 		return objETranxLogDto;
 	}
 	
@@ -391,21 +430,18 @@ public class CheckOutController {
 				.getParameter(StringConstants.MerchantForm.MERCHANT_NO));
 		itemBean.setAccessCode((String) request
 				.getParameter(StringConstants.MerchantForm.ACCESS_CODE));
-	/*	
+		
 		itemBean.setOrderNo((String) request
 				.getParameter(StringConstants.MerchantForm.ORDER_NO));
-		itemBean.setMerchantTranxRefNo((String) request
-				.getParameter(StringConstants.MerchantForm.MERCHANT_TRANX_REF_NO));
-	*/			
+				
 		
-		itemBean.setOrderNo(dateFormat.format(date));
-		itemBean.setMerchantTranxRefNo(dateFormat.format(date));
+//		itemBean.setOrderNo(dateFormat.format(date));
 		
-		
+		itemBean.setAmount((String) request.getParameter(StringConstants.MerchantForm.AMOUNT));
 		itemBean.setTransactionCode((String) request
 				.getParameter(StringConstants.MerchantForm.TRANSACTION_CODE));
-		itemBean.setVersion((String) request
-				.getParameter(StringConstants.MerchantForm.VERSION));
+//		itemBean.setVersion((String) request
+//				.getParameter(StringConstants.MerchantForm.VERSION));
 		itemBean.setDateTime((String) request
 				.getParameter(StringConstants.MerchantForm.DATE_TIME));
 		itemBean.setPayBy((String) request
@@ -414,22 +450,26 @@ public class CheckOutController {
 				.getParameter(StringConstants.MerchantForm.HASH_VALUE));
 		itemBean.setHashAlgo((String) request
 				.getParameter(StringConstants.MerchantForm.HASH_ALGO));
+		itemBean.setCurrency((String) request
+				.getParameter(StringConstants.MerchantForm.CURRENCY));
+		Random randomno = new Random();
+		itemBean.setTranxRefNo(String.valueOf(100000 + randomno.nextInt(900000)));
 	}
 	
 	private String createQRString(ItemBean itemBean,ETranxLogDto objSuccessfulETranxLogDto){
-		String qrResEncrypt = itemBean.getMerchantNo() + "&" + itemBean.getMerchantTranxRefNo()
+		String qrResEncrypt = itemBean.getMerchantNo() 
 				+ "&" + itemBean.getOrderNo() + "&" + itemBean.getAmount();
 		String strQRtext = null;
 		try {
 			strQRtext = StringConstants.QRFields.QR_MER_NAME+":"+itemBean.getMerchantName() +"&"
 			+StringConstants.QRFields.QR_MER_ID+":"+itemBean.getMerchantNo() +"&"
-			+StringConstants.QRFields.QR_MER_TRAX_REF_NO+":"+ itemBean.getMerchantTranxRefNo() +"&"
 			+StringConstants.QRFields.QR_ORDER_NO+":"+ itemBean.getOrderNo() +"&"
 			+StringConstants.QRFields.QR_AMOUNT+":"+ itemBean.getAmount() + "&"
 			+StringConstants.QRFields.QR_CURRENCY+":"+objSuccessfulETranxLogDto.getCurrency()+"&"
 			+StringConstants.QRFields.QR_RRN+":"+objSuccessfulETranxLogDto.getRrn()+"&"
 			+StringConstants.QRFields.QR_RES_CODE+":"+ objSuccessfulETranxLogDto.getResponseCode()+"&"
-			+StringConstants.QRFields.QR_RES_ENCRYPT+":"+ Util.encrypt3DES("120000001200000012000000", qrResEncrypt);
+			+StringConstants.QRFields.QR_RES_ENCRYPT+":"+ Util.encrypt3DES("120000001200000012000000", qrResEncrypt)+"&"
+			+StringConstants.QRFields.QR_PROCESSOR_ID+":"+ StringConstants.Validation.PROCESSOR_ID;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -445,8 +485,8 @@ public class CheckOutController {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 		String date = dateFormat.format(dateNow);
 		System.out.println("+++++++++AJAX++++++++++++++++++++");
-		System.out.println("+++++++++values++++++++++++++++++++"+itemBean.getMerchantTranxRefNo()+" : "+itemBean.getOrderNo());
-		status=objValidationService.checkPaymentStatus(itemBean.getMerchantNo(), itemBean.getMerchantTranxRefNo(), itemBean.getOrderNo(), itemBean.getAmount(), dateNow);
+		System.out.println("+++++++++values++++++++++++++++++++"+" : "+itemBean.getOrderNo());
+		status=objValidationService.checkPaymentStatus(itemBean.getMerchantNo(), itemBean.getOrderNo(), Double.parseDouble(itemBean.getAmount()), dateNow);
 		System.out.println("+++++++++AJAX+++++STATUS+++++++++++++++"+status);
 		//itemBean.setImgQRData(request.getAttribute("e_imgQRData"));
 		//itemBean.setResponseCode(StringConstants.ResponseCodes.QRCODE_GENERATION_FAILED);

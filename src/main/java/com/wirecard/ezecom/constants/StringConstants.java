@@ -6,14 +6,15 @@ package com.wirecard.ezecom.constants;
 public interface StringConstants {
 	
 	public interface Validation{
-	public final String TRANX_CODE_PAY ="COT";
-	public final String TRANX_CODE_EQUERY ="EQR";
+	public final String TRANX_CODE_PAY ="PAY";
+	public final String CURRENCY ="702";
 	
 	public final String INVALID_MERCHANT="INVALID_MERCHANT";
 	public final String VALID_MERCHANT="VALID_MERCHANT";
 	public final String INVALID_ACCESS_CODE="INVALID_ACCESS_CODE";
 	public final String VALID_ACCESS_CODE="VALID_ACCESS_CODE";
 	public final String INVALID_TRANSACTION_CODE="INVALID TRANSACTION CODE";
+	public final String INVALID_CURRENCY="INVALID CURRENCY";
 	public final String INVALID_HASH_CODE="INVALID HASH CODE";
 	
 	public final String UNIQUE_TRANSCTION="UNIQUE_TRANSCTION";
@@ -34,39 +35,44 @@ public interface StringConstants {
 	public final String HASH_CODE_ALGO="SHA256";
 	
 	public final int MAX_ORDER_INFO_LENGTH=19;
+	
+	public final String PROCESSOR_ID="WD";
+	
 	}
 	
 	public interface MerchantForm{
-		public final String MERCHANT_NAME="e_MerchantName";
-		public final String MERCHANT_NO="e_MerchantNo";
-		public final String ACCESS_CODE="e_AccessCode";
-		public final String ORDER_NO="e_OrderNo";
-		public final String MERCHANT_TRANX_REF_NO="e_MerchantTranxRefNo";
-		public final String TRANSACTION_CODE="e_TransactionCode";
+		public final String MERCHANT_NAME="eMerchantName";
+		public final String MERCHANT_NO="eMerchantNo";
+		public final String ACCESS_CODE="eAccessCode";
+		public final String ORDER_NO="eOrderNo";
+		public final String TRANSACTION_CODE="eTransactionCode";
 		public final String VERSION="e_Version";
-		public final String DATE_TIME="e_DateTime";
-		public final String PAY_BY="e_PayBy";
-		public final String HASH_VALUE="e_HashValue";
-		public final String HASH_ALGO="e_HashAlgo";
-		public final String AMOUNT="e_Amount";
+		public final String DATE_TIME="eTransactionDateTime";
+		public final String PAY_BY="ePay";
+		public final String HASH_VALUE="eHash";
+		public final String HASH_ALGO="eHashAlgorithm";
+		public final String AMOUNT="eAmount";
+		public final String CURRENCY="eCurrency";
 		
 		
 	}
 	public interface ResponseCodes{
 		public final String SUCCESS_CODE ="00";
-		public final String ERROR_CODE ="20";
+		public final String ERROR_CODE ="43";
 		public final String INVALID_AMOUNT ="13";
 		public final String INVALID_ACCESS_CODE ="57";
 		public final String INVALID_HASH_CODE ="55";
 		public final String INVALID_TRANSACTION_CODE ="40";
+		public final String INVALID_CURRENCY ="99";
 		public final String INVALID_MERCHANT ="03";
 		public final String INVALID_TRANSACTION_DATE ="33";
-		public final String INVALID_TRANSACTION_REFERENCE_NUMBER ="12";
-		public final String REQUIRED_FIELD_MISSING ="05";
+		public final String NON_UNIQUE_TRANSACTION ="06";
+		public final String REQUIRED_FIELD_MISSING ="42";
 		public final String QRCODE_GENERATION_FAILED ="63";
 		public final String DB_INSERTION_FAILED ="0A";
 		public final String DETAIL_INSERTION_FAILED ="0C";
 		public final String DB_SELECTION_FAILED ="0B";
+		public final String CANCEL_TRANSACTION ="41";
 		
 	}
 	
@@ -91,6 +97,7 @@ public interface StringConstants {
 		public final String QR_RRN ="QR_RRN";
 		public final String QR_RES_CODE ="QR_RES_CODE";
 		public final String QR_RES_ENCRYPT ="QR_RES_ENCRYPT";
+		public final String QR_PROCESSOR_ID ="QR_PROCESSOR_ID";
 		
 	}
 	
@@ -99,11 +106,12 @@ public interface StringConstants {
 		public final String INVALID_MERCHANT ="INVALID MERCHANT";
 		public final String INVALID_TRANSACTION_DATE ="INVALID TRANSACTION DATE";
 		public final String INVALID_AMOUNT ="INVALID AMOUNT";
-		public final String INVALID_TRANSACTION_REFERENCE_NUMBER ="NON UNIQUE TRANSACTION REFERENCE NUMBER";
+		public final String NON_UNIQUE_TRANSACTION ="NON UNIQUE TRANSACTION";
 		public final String INVALID_ACCESS_CODE ="INVALID ACCESS CODE";
 		public final String INVALID_TRANSACTION_CODE ="INVALID TRANSACTION CODE";
 		public final String INVALID_HASH_CODE ="INVALID HASH CODE";
 		public final String INVALID_TRANX_CODE ="INVALID TRANSACTION CODE";
+		public final String INVALID_CURRENCY ="INVALID CURRENCY";
 		public final String DB_INSERTION_FAILED ="TRANXLOG INSERTION FAILED";
 		public final String DB_SELECTTION_FAILED ="TRANXLOG SELECTION FAILED";
 		public final String DETAIL_INSERTION_FAILED ="TRANXDETAIL SELECTION FAILED";

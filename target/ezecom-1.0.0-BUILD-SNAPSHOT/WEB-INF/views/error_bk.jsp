@@ -47,18 +47,18 @@
  <tr>
 <td>Response Code :</td><td>${item.responseCode}</td>
 </tr>
-<input type="hidden" name="e_responseCode" value="${item.responseCode}" />
-<input type="hidden" name="e_MerchantName" value="${item.merchantName}" />
-<input type="hidden" name="e_MerchantNo" value="${item.merchantNo}" />
-<input type="hidden" name="e_AccessCode" value="${item.accessCode}" />
-<input type="hidden" name="e_OrderNo" value="${item.orderNo}" />
+<input type="hidden" name="eRC" value="${item.responseCode}" />
+<input type="hidden" name="eMerchantName" value="${item.merchantName}" />
+<input type="hidden" name="eMerchantNo" value="${item.merchantNo}" />
+<input type="hidden" name="eAccessCode" value="${item.accessCode}" />
+<input type="hidden" name="eOrderNo" value="${item.orderNo}" />
 <input type="hidden" name="e_MerchantTranxRefNo" value="${item.merchantTranxRefNo}" />
-<input type="hidden" name="e_DateTime" value="${item.dateTime}" />
-<input type="hidden" name="e_PayBy" value="${item.payBy}" />
-<input type="hidden" name="e_HashValue" value="${item.hashValue}" />
-<input type="hidden" name="e_HashAlgo" value="${item.hashAlgo}" />
-<input type="hidden" name="e_Amount" value="${item.amount}" />
-<input type="hidden" name="e_remarks" value="${item.errorRemark}" />
+<input type="hidden" name="eTransactionDateTime" value="${item.dateTime}" />
+<input type="hidden" name="ePay" value="${item.payBy}" />
+<input type="hidden" name="eHash" value="${item.hashValue}" />
+<input type="hidden" name="eHashAlgorithm" value="${item.hashAlgo}" />
+<input type="hidden" name="eAmount" value="${item.amount}" />
+<input type="hidden" name="eRemarks" value="${item.errorRemark}" />
 
 
  

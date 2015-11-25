@@ -111,7 +111,7 @@
 
 						<div class="subtotal">
 							<p style="font-size: 15px;">
-								<span>Subtotal (SGD) : </span> <input type="text" name="e_Amount" id="e_Amount"
+								<span>Subtotal (SGD) : </span> <input type="text" name="eAmount" id="eAmount"
 									readonly="true"/>
 									
 							</p>
@@ -123,12 +123,12 @@
 	
 	  <tr>
         <td>Amount : </td>
-        <td><input type="text" name="e_Amount" /></td>
+        <td><input type="text" name="eAmount" /></td>
     </tr>
    
     <tr>
         <td>Hash Value : </td>
-        <td><input type="text" name="e_HashValue" /></td>
+        <td><input type="text" name="eHash" /></td>
     </tr>
     
     <tr>
@@ -146,15 +146,15 @@
     </tr>
 	</table>
 	--><!-- 
-	<input type="hidden" name="e_MerchantName" value="WIRECARDMERCHANT" />
-  	<input type="hidden" name="e_MerchantNo" value="989887870000014" />
-  	<input type="hidden" name="e_AccessCode" value="T111" />
-  	<input type="hidden" name="e_OrderNo" value="1" />
+	<input type="hidden" name="eMerchantName" value="WIRECARDMERCHANT" />
+  	<input type="hidden" name="eMerchantNo" value="989887870000014" />
+  	<input type="hidden" name="eAccessCode" value="T111" />
+  	<input type="hidden" name="eOrderNo" value="1" />
   	<input type="hidden" name="e_MerchantTranxRefNo" value="1" />
-  	<input type="hidden" name="e_TransactionCode" value="COT" />
-  	<input type="hidden" name="e_DateTime" value="12-11-2012 121212" />
-  	<input type="hidden" name="e_PayBy" value="eZlink" />
-  	<input type="hidden" name="e_HashAlgo" value="SHA256" />
+  	<input type="hidden" name="eTransactionCode" value="COT" />
+  	<input type="hidden" name="eTransactionDateTime" value="12-11-2012 121212" />
+  	<input type="hidden" name="ePay" value="eZlink" />
+  	<input type="hidden" name="eHashAlgorithm" value="SHA256" />
   	   -->
 	 
 	 					
@@ -220,10 +220,10 @@
 			var total = (price1Num * quantity1Num)
 					+ (price2Num * quantity2Num);
 
-			$("#subtotal1").html(subtotal1);
-			$("#subtotal2").html(subtotal2);
-			//$("#e_Amount").html(total);
-			$("#e_Amount").val(total);
+			$("#subtotal1").html(parseFloat(Math.round(subtotal1 * 100) / 100).toFixed(2));
+			$("#subtotal2").html(parseFloat(Math.round(subtotal2 * 100) / 100).toFixed(2));
+			//$("#eAmount").html(total);
+			$("#eAmount").val(parseFloat(Math.round(total * 100) / 100).toFixed(2));
 		}
 	}
 

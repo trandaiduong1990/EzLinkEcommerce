@@ -1,9 +1,9 @@
 package com.wirecard.ezecom.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
-
 @Component
 public class ETranxLogDto {
     private String tranxlogid;
@@ -18,15 +18,13 @@ public class ETranxLogDto {
 
     private String merchantNo;
 
-    private String merchantRefno;
-
     private String orderNo;
 
     private String orderInfo;
 
     private double amount;
 
-    private Short currency;
+    private int currency;
 
     private String securehashType;
 
@@ -41,6 +39,12 @@ public class ETranxLogDto {
     private String mcc;
 
     private String tranxStatus;
+
+    private String processStatus;
+
+    private Date processDatetime;
+
+    private String processResponse;
 
     public String getTranxlogid() {
         return tranxlogid;
@@ -90,14 +94,6 @@ public class ETranxLogDto {
         this.merchantNo = merchantNo;
     }
 
-    public String getMerchantRefno() {
-        return merchantRefno;
-    }
-
-    public void setMerchantRefno(String merchantRefno) {
-        this.merchantRefno = merchantRefno;
-    }
-
     public String getOrderNo() {
         return orderNo;
     }
@@ -114,23 +110,24 @@ public class ETranxLogDto {
         this.orderInfo = orderInfo;
     }
 
+
     public double getAmount() {
-        return amount;
-    }
+		return amount;
+	}
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
 
-    public Short getCurrency() {
-        return currency;
-    }
+	public int getCurrency() {
+		return currency;
+	}
 
-    public void setCurrency(Short currency) {
-        this.currency = currency;
-    }
+	public void setCurrency(int currency) {
+		this.currency = currency;
+	}
 
-    public String getSecurehashType() {
+	public String getSecurehashType() {
         return securehashType;
     }
 
@@ -184,5 +181,29 @@ public class ETranxLogDto {
 
     public void setTranxStatus(String tranxStatus) {
         this.tranxStatus = tranxStatus;
+    }
+
+    public String getProcessStatus() {
+        return processStatus;
+    }
+
+    public void setProcessStatus(String processStatus) {
+        this.processStatus = processStatus;
+    }
+
+    public Date getProcessDatetime() {
+        return processDatetime;
+    }
+
+    public void setProcessDatetime(Date processDatetime) {
+        this.processDatetime = processDatetime;
+    }
+
+    public String getProcessResponse() {
+        return processResponse;
+    }
+
+    public void setProcessResponse(String processResponse) {
+        this.processResponse = processResponse;
     }
 }

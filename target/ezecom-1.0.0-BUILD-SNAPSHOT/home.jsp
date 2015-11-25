@@ -19,15 +19,15 @@
     <table>
     <tr>
         <td>Merchant No. : </td>
-        <td><input type="text" name="e_MerchantNo" /></td> 
+        <td><input type="text" name="eMerchantNo" /></td> 
     </tr>
     <tr>
         <td>Access Code :</td>
-        <td><input type="text" name="e_AccessCode" /></td> 
+        <td><input type="text" name="eAccessCode" /></td> 
     </tr>
     <tr>
         <td>Order Number : </td>
-        <td><input type="text" name="e_OrderNo" /></td> 
+        <td><input type="text" name="eOrderNo" /></td> 
     </tr>
     <tr>
         <td>Merchant Tranx. Ref. Number : </td>
@@ -35,30 +35,30 @@
     </tr>
     <tr>
         <td>Transaction Code : </td>
-        <td><input type="text" name="e_TransactionCode" /></td>
+        <td><input type="text" name="eTransactionCode" /></td>
     </tr>
     <tr>
         <td>Amount : </td>
-        <td><input type="text" name="e_Amount" /></td>
+        <td><input type="text" name="eAmount" /></td>
     </tr>
     <tr>
         <td>Date Time (dd-MM-yyyy HHmmss) : </td>
-        <td><input type="text" name="e_DateTime" /></td>
+        <td><input type="text" name="eTransactionDateTime" /></td>
     </tr>
     <tr>
         <td>Pay By : </td>
-       <!-- <td><input type="text" name="e_PayBy" /></td>-->
-       <td><input type="radio" name="e_PayBy" value="eZlink" checked="checked"/>EzLink</td>
-       <td><input type="radio" name="e_PayBy" value="PayPal" />PayPal</td>
+       <!-- <td><input type="text" name="ePay" /></td>-->
+       <td><input type="radio" name="ePay" value="eZlink" checked="checked"/>EzLink</td>
+       <td><input type="radio" name="ePay" value="PayPal" />PayPal</td>
        
     </tr>
     <tr>
         <td>Hash Value : </td>
-        <td><input type="text" name="e_HashValue" /></td>
+        <td><input type="text" name="eHash" /></td>
     </tr>
     <tr>
         <td>Hash Algo : </td>
-        <td><input type="text" name="e_HashAlgo" /></td>
+        <td><input type="text" name="eHashAlgorithm" /></td>
     </tr>
     
     <tr>
@@ -67,7 +67,7 @@
         </td>
     </tr>
 </table>
-  <input type="hidden" name="e_MerchantName" value="WIRECARDMERCHANT" />
+  <input type="hidden" name="eMerchantName" value="WIRECARDMERCHANT" />
   <input type="hidden" name="e_Version" value="1.0" />   
 </form>
 

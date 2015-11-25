@@ -76,8 +76,7 @@ public class ValidationServiceImpl implements ValidationService {
 		
 	}
 
-	public String isUniqueTransaction(String merchantNo,
-			String merchantTranxRefNo, String orderNo) {
+	public String isUniqueTransaction(String merchantNo, String orderNo) {
 		ETranxLogDto objETranxLogDto;
 		/*
 		List<ETranxLogDto> objETranxLogDtoList;
@@ -97,7 +96,7 @@ public class ValidationServiceImpl implements ValidationService {
 		*/
 		
 		try {
-			objETranxLogDto=objETranxLogDtoMapper.isUniqueMerchantRefNUmber(merchantNo, merchantTranxRefNo);
+			objETranxLogDto=objETranxLogDtoMapper.isUniqueMerchantRefNUmber(merchantNo, orderNo);
 			if(null==objETranxLogDto){
 				//return true;
 				System.out.println("+++UNIQUE MER TRANX REF NO++++++++++++++++++++");
@@ -128,11 +127,11 @@ public class ValidationServiceImpl implements ValidationService {
 	}
 
 	public boolean checkPaymentStatus(String merchantNo,
-			String merchantTranxRefNo, String orderNo, double amount, Date dateNow) {
+			 String orderNo, double amount, Date dateNow) {
 		
 		ETranxLogDto objETranxLogDto;
 		try {
-			objETranxLogDto=objETranxLogDtoMapper.checkTransactionStatus(merchantNo, merchantTranxRefNo,orderNo,amount);
+			objETranxLogDto=objETranxLogDtoMapper.checkTransactionStatus(merchantNo, orderNo,amount);
 			if(null==objETranxLogDto){
 				//return true;
 				System.out.println("+++UNIQUE MER TRANX REF NO++++++++++++++++++++");
@@ -150,6 +149,8 @@ public class ValidationServiceImpl implements ValidationService {
 		{
 			// Update tranx_status is from 'R' to 'S'
 			objETranxLogDto.setDatetime(dateNow);
+			Random randomno = new Random();
+			objETranxLogDto.setApprovalCode(String.valueOf(100000 + randomno.nextInt(900000)));
 			int update = objETranxLogDtoMapper.updateTranxStatus(objETranxLogDto);
 			if(update == 1) {
 				System.out.println("+++++UPDATE TRANX_STATUS SUCCESS+++++++++++++++++++++++");
@@ -163,6 +164,20 @@ public class ValidationServiceImpl implements ValidationService {
 			return false;
 		}
 		
+	}
+
+	public String getReturnUrl(String merchantNo) {
+		EMerchantDetailsDto objEMerchantDetailsDto;
+		try {
+			objEMerchantDetailsDto = objEMerchantDetailsDtoMapper.getMerchantByMerchantId(merchantNo);
+		
+		if(objEMerchantDetailsDto==null){
+			return "";
+		}
+		return objEMerchantDetailsDto.getReturnUrl(); 
+		} catch (SQLException e) {
+			return StringConstants.ResponseCodes.ERROR_CODE; 
+		}
 	}
 
 }

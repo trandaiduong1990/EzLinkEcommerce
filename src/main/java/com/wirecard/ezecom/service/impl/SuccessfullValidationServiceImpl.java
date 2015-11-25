@@ -54,17 +54,17 @@ public class SuccessfullValidationServiceImpl implements SuccessfullValidationSe
 		
 		
 		
-		objETranxLogDto.setCurrency((short) 702);
+//		objETranxLogDto.setCurrency((short) 702);
 
 
 	      Random randomno = new Random();
-	      objETranxLogDto.setRrn(String.valueOf(randomno.nextInt()));
-	      
+//	      objETranxLogDto.setRrn(String.valueOf(randomno.nextInt()));
+//	      objETranxLogDto.setRrn(String.valueOf(100000 + randomno.nextInt(900000)));
 	      objETranxLogDto.setChannel("WB");
 	      objETranxLogDto.setOrderInfo("WEB");
+	      objETranxLogDto.setProcessStatus("N");
 	      
-	      
-	      objETranxLogDto.setApprovalCode("A01234");
+//	      objETranxLogDto.setApprovalCode("A01234");
 		}
 		catch(Exception e){
 			objETranxLogDto.setResponseCode(StringConstants.ResponseCodes.ERROR_CODE);
@@ -73,8 +73,7 @@ public class SuccessfullValidationServiceImpl implements SuccessfullValidationSe
 	     
 	      //Transaction code validation
 	      System.out.println("**************RESPONSE CODE*******B4***********"+objETranxLogDto.getResponseCode());
-	      if(objETranxLogDto.getTranxcode().equalsIgnoreCase(StringConstants.Validation.TRANX_CODE_PAY)||
-	    			objETranxLogDto.getTranxcode().equalsIgnoreCase(StringConstants.Validation.TRANX_CODE_EQUERY)){
+	      if(objETranxLogDto.getTranxcode().equalsIgnoreCase(StringConstants.Validation.TRANX_CODE_PAY)){
 	    	  if(!((StringConstants.ResponseCodes.INVALID_HASH_CODE.equalsIgnoreCase(objETranxLogDto.getResponseCode()))||
 	    			(StringConstants.ResponseCodes.INVALID_ACCESS_CODE.equalsIgnoreCase(objETranxLogDto.getResponseCode()))  
 	    			  )){
@@ -123,11 +122,10 @@ public class SuccessfullValidationServiceImpl implements SuccessfullValidationSe
 	    				}
 	    				
 	    				System.out.println(objETranxLogDto.getMerchantNo());
-	    				System.out.println(objETranxLogDto.getMerchantRefno());
 	    				System.out.println(objETranxLogDto.getOrderNo());
 	    				System.out.println(objETranxLogDto.getTranxStatus());
 	    				try{
-	    				objETranxLogDto=objETranxLogDtoMapper.selectTransaction(objETranxLogDto.getMerchantNo(),objETranxLogDto.getMerchantRefno(), objETranxLogDto.getOrderNo(),objETranxLogDto.getAmount(), objETranxLogDto.getTranxStatus());
+	    				objETranxLogDto=objETranxLogDtoMapper.selectTransaction(objETranxLogDto.getMerchantNo(), objETranxLogDto.getOrderNo(),objETranxLogDto.getAmount(), objETranxLogDto.getTranxStatus());
 	    				
 	    				if(null==objETranxLogDto){
 	    					System.out.println("++NO SELECTION   +++");
@@ -184,7 +182,6 @@ public class SuccessfullValidationServiceImpl implements SuccessfullValidationSe
 		objEErrorLogDto.setDatetime(new Date());
 		objEErrorLogDto.setOrderInfo("INSERT FAILED : "+objETranxLogDto.getOrderInfo());
 		objEErrorLogDto.setMerchantNo(objETranxLogDto.getMerchantNo());
-		objEErrorLogDto.setMerchantRefno(objETranxLogDto.getMerchantRefno());
 		objEErrorLogDto.setOrderNo(objETranxLogDto.getOrderNo());
 		objEErrorLogDto.setAmount(objETranxLogDto.getAmount());
 		objEErrorLogDto.setSecurehashType(objETranxLogDto.getSecurehashType());
@@ -193,7 +190,7 @@ public class SuccessfullValidationServiceImpl implements SuccessfullValidationSe
 		objEErrorLogDto.setCurrency((short) 702);
 		objEErrorLogDto.setRrn(objETranxLogDto.getRrn());
 		objEErrorLogDto.setTranxStatus("Q");
-		objEErrorLogDto.setApprovalCode("A01234");
+		objEErrorLogDto.setApprovalCode(objETranxLogDto.getApprovalCode());
 		
 		objEErrorLogDto.setResponseCode(objETranxLogDto.getResponseCode());
 		

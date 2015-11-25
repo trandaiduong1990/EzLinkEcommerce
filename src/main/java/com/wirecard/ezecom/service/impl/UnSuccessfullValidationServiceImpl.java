@@ -47,10 +47,10 @@ public class UnSuccessfullValidationServiceImpl implements
 		
 		
 		objETranxLogDto.setCurrency((short) 702);
-
+		objETranxLogDto.setProcessStatus("N");
 
 	      Random randomno = new Random();
-	      objETranxLogDto.setRrn(String.valueOf(randomno.nextInt()));
+//	      objETranxLogDto.setRrn(String.valueOf(100000 + randomno.nextInt(900000)));
 	      
 	      objETranxLogDto.setChannel("WB");
 	      if(null==objETranxLogDto.getOrderInfo()){
@@ -58,9 +58,25 @@ public class UnSuccessfullValidationServiceImpl implements
 	      }
 	      
 	      
-	      objETranxLogDto.setApprovalCode("A01234");
+//	      objETranxLogDto.setApprovalCode("A01234");
 	     
-	    
+	      if(StringConstants.ResponseCodes.REQUIRED_FIELD_MISSING.equals(objETranxLogDto.getResponseCode())){
+				//insert into eerorlog	
+		    	   try{
+		    		   objEErrorLogDto=createETranxLogDto(objETranxLogDto);
+		    		   objEErrorLogDto.setOrderInfo(StringConstants.ErrorRemarks.FIELD_MISSING);
+		    		   //objEErrorLogDto.setResponseCode(StringConstants.ResponseCodes.INVALID_MERCHANT);
+		    			returnValue=objEErrorLogDtoMapper.insert(objEErrorLogDto);
+		    			System.out.println("++RETURN VALUE+++"+returnValue);
+		    			return StringConstants.ResponseCodes.REQUIRED_FIELD_MISSING;
+		    		      }catch(Exception e){
+		    		    	  System.out.println("++INSERTION ERROR -REQUIRED_FIELD_MISSING +++");
+		    		    	  e.printStackTrace();
+		    		    	  resCode=StringConstants.ResponseCodes.ERROR_CODE; 
+		    		    	  return resCode; 
+		    		      }
+				}
+	      
 	      if(StringConstants.ResponseCodes.INVALID_TRANSACTION_DATE.equalsIgnoreCase(objETranxLogDto.getResponseCode())){
 	    	//insert into eerorlog	
 	    	   try{
@@ -116,15 +132,15 @@ public class UnSuccessfullValidationServiceImpl implements
 	    		    	  return resCode; 
 	    		      }
 			}
-	      if(StringConstants.ResponseCodes.INVALID_TRANSACTION_REFERENCE_NUMBER.equals(objETranxLogDto.getResponseCode())){
+	      if(StringConstants.ResponseCodes.NON_UNIQUE_TRANSACTION.equals(objETranxLogDto.getResponseCode())){
 				//insert into eerorlog	
 		    	   try{
 		    		   objEErrorLogDto=createETranxLogDto(objETranxLogDto);
-		    		   objEErrorLogDto.setOrderInfo(StringConstants.ErrorRemarks.INVALID_TRANSACTION_REFERENCE_NUMBER);
+		    		   objEErrorLogDto.setOrderInfo(StringConstants.ErrorRemarks.NON_UNIQUE_TRANSACTION);
 		    		   //objEErrorLogDto.setResponseCode(StringConstants.ResponseCodes.INVALID_MERCHANT);
 		    			returnValue=objEErrorLogDtoMapper.insert(objEErrorLogDto);
 		    			System.out.println("++RETURN VALUE+++"+returnValue);
-		    			return StringConstants.ResponseCodes.INVALID_TRANSACTION_REFERENCE_NUMBER;
+		    			return StringConstants.ResponseCodes.NON_UNIQUE_TRANSACTION;
 		    		      }catch(Exception e){
 		    		    	  System.out.println("++INSERTION ERROR -INVALID_MERCHANT +++");
 		    		    	  e.printStackTrace();
@@ -133,20 +149,20 @@ public class UnSuccessfullValidationServiceImpl implements
 		    		      }
 				}
 	      
-	      else{
-	    	  //VALID MERCHANT
-	      try{
-		returnValue=objETranxLogDtoMapper.insert(objETranxLogDto);
-		System.out.println("++RETURN VALUE+++"+returnValue);
-		return objETranxLogDto.getResponseCode();
-	      }catch(Exception e){
-	    	  System.out.println("++INSERTION ERROR+++");
-	    	  resCode=StringConstants.ResponseCodes.ERROR_CODE; 
-	    	  e.printStackTrace();
-	    	  return resCode;
-	      }
+			else {
+				// VALID MERCHANT
+				try {
+					returnValue = objETranxLogDtoMapper.insert(objETranxLogDto);
+					System.out.println("++RETURN VALUE+++" + returnValue);
+					return objETranxLogDto.getResponseCode();
+				} catch (Exception e) {
+					System.out.println("++INSERTION ERROR+++");
+					resCode = StringConstants.ResponseCodes.ERROR_CODE;
+					e.printStackTrace();
+					return resCode;
+				}
 
-		}
+			}
 	      
 	}catch(Exception e){
 			return StringConstants.ResponseCodes.ERROR_CODE;
@@ -161,7 +177,6 @@ public class UnSuccessfullValidationServiceImpl implements
 		objEErrorLogDto.setDatetime(new Date());
 		objEErrorLogDto.setOrderInfo(objETranxLogDto.getOrderInfo());
 		objEErrorLogDto.setMerchantNo(objETranxLogDto.getMerchantNo());
-		objEErrorLogDto.setMerchantRefno(objETranxLogDto.getMerchantRefno());
 		objEErrorLogDto.setOrderNo(objETranxLogDto.getOrderNo());
 		objEErrorLogDto.setAmount(objETranxLogDto.getAmount());
 		objEErrorLogDto.setSecurehashType(objETranxLogDto.getSecurehashType());
@@ -170,7 +185,7 @@ public class UnSuccessfullValidationServiceImpl implements
 		objEErrorLogDto.setCurrency((short) 702);
 		objEErrorLogDto.setRrn(objETranxLogDto.getRrn());
 		objEErrorLogDto.setTranxStatus(objETranxLogDto.getTranxStatus());
-		objEErrorLogDto.setApprovalCode("A01234");
+		objEErrorLogDto.setApprovalCode(objETranxLogDto.getApprovalCode());
 		
 		objEErrorLogDto.setResponseCode(objETranxLogDto.getResponseCode());
 		

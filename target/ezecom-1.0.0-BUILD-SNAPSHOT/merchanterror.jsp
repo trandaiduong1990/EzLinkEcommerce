@@ -58,27 +58,27 @@
 												
 												<table>
 							<tr>
-							<td>Merchant Number :</td><td><%=request.getParameter("e_MerchantName") %></td>
+							<td>Merchant Number :</td><td><%=request.getParameter("eMerchantName") %></td>
 							</tr>
 							<tr>
-							<td>Access Code :</td><td><%=request.getParameter("e_AccessCode")%></td>
+							<td>Access Code :</td><td><%=request.getParameter("eAccessCode")%></td>
 							</tr>
 							<tr>
-							<td>Oreder Number :</td><td><%=request.getParameter("e_OrderNo")%></td>
+							<td>Oreder Number :</td><td><%=request.getParameter("eOrderNo")%></td>
 							</tr>
 							<tr>
 							<td>Merchant Tranx. Ref No :</td><td><%=request.getParameter("e_MerchantTranxRefNo")%></td>
 							</tr>
 							<tr>
-							<td>Amount :</td><td><%=request.getParameter("e_Amount")%></td>
+							<td>Amount :</td><td><%=request.getParameter("eAmount")%></td>
 							</tr>
 							<tr>
-							<td>Remarks :</td><td><%=request.getParameter("e_remarks")%></td>
+							<td>Remarks :</td><td><%=request.getParameter("eRemarks")%></td>
 							</tr>
 							
 							<tr>
 							
-							<td>Response Code : </td><td><%=request.getParameter("e_responseCode") %></td>
+							<td>Response Code : </td><td><%=request.getParameter("eRC") %></td>
 							</tr>
 							</table>
 					

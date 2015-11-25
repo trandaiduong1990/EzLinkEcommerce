@@ -50,22 +50,19 @@
 					<div id="roundedrect" style="border: 2px solid; border-radius: 25px; ">
 					<table>
 <tr>
-<td><B>Merchant Number :</B></td><td><%=request.getParameter("e_MerchantName") %></td>
+<td><B>Merchant Number :</B></td><td><%=request.getParameter("eMerchantName") %></td>
 </tr>
 <tr>
-<td><B>Access Code :</B></td><td><%=request.getParameter("e_AccessCode")%></td>
+<td><B>Access Code :</B></td><td><%=request.getParameter("eAccessCode")%></td>
 </tr>
 <tr>
-<td><B>Order Number :</B></td><td><%=request.getParameter("e_OrderNo")%></td>
+<td><B>Order Number :</B></td><td><%=request.getParameter("eOrderNo")%></td>
 </tr>
 <tr>
-<td><B>Merchant Tranx. Ref No :</B></td><td><%=request.getParameter("e_MerchantTranxRefNo")%></td>
+<td><B>Amount :</B></td><td><%=request.getParameter("eAmount")%></td>
 </tr>
 <tr>
-<td><B>Amount :</B></td><td><%=request.getParameter("e_Amount")%></td>
-</tr>
-<tr>
-<td><B>Date Time :</B></td><td><%=request.getParameter("e_DateTime1")%></td>
+<td><B>Date Time :</B></td><td><%=request.getParameter("eTransactionDateTime1")%></td>
 </tr>
 
 </table>

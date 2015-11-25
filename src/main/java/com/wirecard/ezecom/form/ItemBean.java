@@ -10,13 +10,21 @@ import java.util.Date;
 
 public class ItemBean {
 	
-	private String merchantNo,accessCode,orderNo,merchantTranxRefNo,remarks,transactionCode,merchantName;
-	private String dateTime,payBy,hashValue,hashAlgo,version,responseCode,errorRemark;
+	private String merchantNo,accessCode,orderNo,remarks,transactionCode,merchantName,currency;
+	private String dateTime,payBy,hashValue,hashAlgo,responseCode,errorRemark, tranxRefNo;
 	
-	private double amount;
+	private String amount;
+	private String returnUrl;
 	private Date validatedMerchantTranxDate;
 	private byte[] imgQRData;
 	
+	
+	public String getReturnUrl() {
+		return returnUrl;
+	}
+	public void setReturnUrl(String returnUrl) {
+		this.returnUrl = returnUrl;
+	}
 	public String getDateTime() {
 		return dateTime;
 	}
@@ -42,19 +50,10 @@ public class ItemBean {
 		this.hashAlgo = hashAlgo;
 	}
 	
-	
-	
-	
-	public String getMerchantTranxRefNo() {
-		return merchantTranxRefNo;
-	}
-	public void setMerchantTranxRefNo(String merchantTranxRefNo) {
-		this.merchantTranxRefNo = merchantTranxRefNo;
-	}
-	public double getAmount() {
+	public String getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount) {
+	public void setAmount(String amount) {
 		this.amount = amount;
 	}
 	public String getRemarks() {
@@ -93,12 +92,6 @@ public class ItemBean {
 	public void setMerchantName(String merchantName) {
 		this.merchantName = merchantName;
 	}
-	public String getVersion() {
-		return version;
-	}
-	public void setVersion(String version) {
-		this.version = version;
-	}
 	public Date getValidatedMerchantTranxDate() {
 		return validatedMerchantTranxDate;
 	}
@@ -119,12 +112,23 @@ public class ItemBean {
 		this.imgQRData = imgQRData;
 	}
 	
-	
+	public String getCurrency() {
+		return currency;
+	}
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
 	public String getErrorRemark() {
 		return errorRemark;
 	}
 	public void setErrorRemark(String errorRemark) {
 		this.errorRemark = errorRemark;
+	}
+	public String getTranxRefNo() {
+		return tranxRefNo;
+	}
+	public void setTranxRefNo(String tranxRefNo) {
+		this.tranxRefNo = tranxRefNo;
 	}
 	
 

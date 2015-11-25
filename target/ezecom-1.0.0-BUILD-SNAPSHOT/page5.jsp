@@ -38,7 +38,7 @@
 				<div class="modal-body">
 					<div style="width: 100%; text-align: center;">
 						<p style="color: #1abc9c; font-size: 20px;">Payment
-							Reciept!</p>
+							Reciept</p>
 							
 	<table class="center" cellpadding="10">	
 	<tr><td style="text-align: right;">Merchant No : </td><td><div id="merchNo"></div></td></tr>
@@ -108,15 +108,15 @@ function closeMe()
 function initializeMainDiv() {
 	
 	document.getElementById("merchNo").innerHTML = 
-    window.opener.document.getElementById("e_MerchantNo").value;
+    window.opener.document.getElementById("eMerchantNo").value;
 	document.getElementById("merchRefNo").innerHTML = 
     window.opener.document.getElementById("e_MerchantTranxRefNo").value;
 	document.getElementById("orderNo").innerHTML =
-    window.opener.document.getElementById("e_OrderNo").value;
+    window.opener.document.getElementById("eOrderNo").value;
 	document.getElementById("amount").innerHTML = 
-    window.opener.document.getElementById("e_Amount").value;
+    window.opener.document.getElementById("eAmount").value;
 	document.getElementById("dateTime").innerHTML = 
-    window.opener.document.getElementById("e_DateTime").value;
+    window.opener.document.getElementById("eTransactionDateTime").value;
 	 
 	 
 	//window.opener.document.getElementId("payment").submit();

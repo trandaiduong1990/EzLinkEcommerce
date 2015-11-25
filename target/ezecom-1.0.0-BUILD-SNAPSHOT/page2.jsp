@@ -19,19 +19,20 @@
 		<div class="wrapper">
 
 			<div class="content">
-			 <form id="loadingForm" method="post" action="/ezecom/index.htm">
+			 <form id="loadingForm" method="post" action="/ezecom/payez.htm">
 			<!-- <form id="loadingForm" method="post" action="/ezecom-1.0.0-BUILD-SNAPSHOT/index.htm">-->
-				<input type="hidden" name="e_MerchantName" value="WIRECARDMERCHANT" />
-			  	<input type="hidden" name="e_MerchantNo" value="989887870000014" />
-			  	<input type="hidden" name="e_AccessCode" value="T111" />
-			  	<input type="hidden" name="e_OrderNo" value="1" />
+				<input type="hidden" name="eMerchantName" value="WIRECARDMERCHANT" />
+			  	<input type="hidden" name="eMerchantNo" value="989887870000014" />
+			  	<input type="hidden" name="eAccessCode" value="T1110" />
+			  	<input type="hidden" name="eOrderNo" value="1" />
 			  	<input type="hidden" name="e_MerchantTranxRefNo" value="1" />
-			  	<input type="hidden" name="e_TransactionCode" value="COT" />
-			  	<input type="hidden" name="e_DateTime" value="12-11-2012 121212" />
-			  	<input type="hidden" name="e_PayBy" value="eZlink" />
-			  	<input type="hidden" name="e_HashAlgo" value="SHA256" />
-			  	<input type="hidden" name="e_Amount" value="${param.e_Amount}"/>
-			  	<input type="hidden" name="e_HashValue" value="f8032ac2df0a7e8621a04ff88988e84c06ee04fda4582d623bd0e4d2ccc37e49"/>
+			  	<input type="hidden" name="eTransactionCode" value="COT" />
+			  	<input type="hidden" name="eTransactionCode" value="PAY" />
+			  	<input type="hidden" name="eTransactionDateTime" value="12-11-2012 121212" />
+			  	<input type="hidden" name="ePay" value="EZ" />
+			  	<input type="hidden" name="eHashAlgorithm" value="SHA256" />
+			  	<input type="hidden" name="eAmount" value="${param.eAmount}"/>
+			  	<input type="hidden" name="eHash" value="f8032ac2df0a7e8621a04ff88988e84c06ee04fda4582d623bd0e4d2ccc37e49"/>
 			
 				<br /> <br /> <br /> <br />
 				

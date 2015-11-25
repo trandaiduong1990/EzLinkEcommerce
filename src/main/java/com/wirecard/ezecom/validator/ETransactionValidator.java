@@ -26,7 +26,7 @@ public class ETransactionValidator implements Validator {
 	
 	public void isUniqueTranxvalidation(String Validationlag, Errors errors) {
 		if(StringConstants.Validation.NON_UNIQUE_TRANSACTION.equals(Validationlag)){
-			errors.rejectValue("merchantTranxRefNo", "notmatch.merchantTranxRefNo");
+			errors.rejectValue("orderNo", "notmatch.orderNo");
 		}
 
 	}
@@ -37,6 +37,14 @@ public class ETransactionValidator implements Validator {
 		}
 
 	}
+	
+	public void isValidCurrency(String Validationlag, Errors errors) {
+		if(StringConstants.Validation.INVALID_CURRENCY.equals(Validationlag)){
+			errors.rejectValue("currency", "notmatch.currency");
+		}
+
+	}
+	
 	public void isValidHAshCodevalidation(String Validationlag, Errors errors) {
 		if(StringConstants.Validation.INVALID_HASH_CODE.equals(Validationlag)){
 			errors.rejectValue("transactionCode", "notmatch.hashValue");

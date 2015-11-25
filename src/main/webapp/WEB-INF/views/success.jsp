@@ -27,7 +27,7 @@
 		<div class="wrapper">
 
 			<div class="content">
-				<form id="payment" method="post"  action="/ezecom/merchantHome.jsp">
+				<form id="payment" method="post"  action="${item.returnUrl}">
 					<div class="" style="width: 20%; float: left;">
 						<div>
 							<img src="${request.contextPath}img/wirecard.jpg"
@@ -74,17 +74,11 @@
 							
 							
 							<tr>
-								<td style="text-align: left;"><B>Merchant Tranx. Ref No :</B></td>
-								<td>${item.merchantTranxRefNo}</td>
+								<td style="text-align: left;"><B>Amount (SGD) :</B></td>
+								<td>${item.amount}</td>
 								<td style="text-align: right;"><B>Order Number :</B></td>
 								<td>${item.orderNo}</td>
 							</tr>
-							
-							<tr>
-								<td style="text-align: left;"><B>Amount (SGD) :</B></td>
-								<td>${item.amount}</td>
-							</tr>
-							
 							
 						</table>
 						</div>
@@ -100,19 +94,19 @@
 						</div>
 						
 						
-				<input type="hidden" name="e_MerchantName" value="${item.merchantName}" />
-			  	<input type="hidden" name="e_MerchantNo" value="${item.merchantNo}" />
-			  	<input type="hidden" name="e_AccessCode" value="${item.accessCode}" />
-			  	
-			  	<input type="hidden" name="e_OrderNo" value="${item.orderNo}" />
-			  	<input type="hidden" name="e_MerchantTranxRefNo" value="${item.merchantTranxRefNo}" />
-			  	<input type="hidden" name="e_TransactionCode" value="COT" />
-			  	<input type="hidden" name="e_DateTime" value="12-11-2012 121212" />
-			  	<input type="hidden" name="e_PayBy" value="eZlink" />
-			  	<input type="hidden" name="e_HashAlgo" value="SHA256" />
-			  	<input type="hidden" name="e_Amount" value="${item.amount}"/>
-			  	<input type="hidden" name="e_HashValue" value="${param.e_HashValue}"/>
-			  	<input type="hidden" name="e_DateTime1" id="e_DateTime1" value=""/>
+				<input type="hidden" name="eRC" value="${item.responseCode}" />
+				<input type="hidden" name="eMerchantName" value="${item.merchantName}" />
+				<input type="hidden" name="eMerchantNo" value="${item.merchantNo}" />
+				<input type="hidden" name="eAccessCode" value="${item.accessCode}" />
+				<input type="hidden" name="eOrderNo" value="${item.orderNo}" />
+				<input type="hidden" name="eTransactionDateTime" value="${item.dateTime}" />
+				<input type="hidden" name="ePay" value="${item.payBy}" />
+				<input type="hidden" name="eHash" value="${item.hashValue}" />
+				<input type="hidden" name="eHashAlgorithm" value="${item.hashAlgo}" />
+				<input type="hidden" name="eAmount" value="${item.amount}" />
+				<input type="hidden" name="eRemarks" value="${item.errorRemark}" />
+				<input type="hidden" name="eTranxRefNo" value="${item.tranxRefNo}" />
+			  	<input type="hidden" name="eTransactionDateTime1" id="eTransactionDateTime1" value=""/>
 
 						<p class="title"><B>Step 3: Once Payment completed via Mobile Application.
 						Please click on "Next" button if confirmation receipt is not pop-up</B></p>
@@ -127,28 +121,16 @@
 						
 						
 						</table>
-						<input type="hidden" name="e_MerchantTranxRefNo" id="e_MerchantTranxRefNo" value="${item.merchantTranxRefNo}" />
-						<input type="hidden" name="e_MerchantNo" id="e_MerchantNo" value="${item.merchantNo}" />
-						<input type="hidden" name="e_OrderNo" id="e_OrderNo" value="${item.orderNo}" />
-						<input type="hidden" name="e_Amount" id="e_Amount" value="${item.amount}"/>
-						<input type="hidden" name="e_DateTime" id="e_DateTime" value=""/>
+						<%-- <input type="hidden" name="e_MerchantTranxRefNo" id="e_MerchantTranxRefNo" value="${item.merchantTranxRefNo}" /> --%>
+						<input type="hidden" name="eMerchantNo" id="eMerchantNo" value="${item.merchantNo}" />
+						<input type="hidden" name="eOrderNo" id="eOrderNo" value="${item.orderNo}" />
+						<input type="hidden" name="eAmount" id="eAmount" value="${item.amount}"/>
 						<div style="text-align: center;">
 							<a href="#" class="button red" onclick="submit();">Next</a> <a
-								href="#" class="button">Cancel</a>
+								href="#" class="button" onclick="closeform();">Cancel</a>
 						</div>
 						
 						</form>
-						<!-- 
-						<form id="reciept" method="post" action="/page5.jsp" target="TheWindow">
-						
-						<input type="hidden" name="e_MerchantTranxRefNo" id="e_MerchantTranxRefNo" value="${item.merchantTranxRefNo}" />
-						<input type="hidden" name="e_MerchantNo" id="e_MerchantNo" value="${item.merchantNo}" />
-						<input type="hidden" name="e_OrderNo" id="e_OrderNo" value="${item.orderNo}" />
-						<input type="hidden" name="e_Amount" id="e_Amount" value="${item.amount}"/>
-						
-						
-						</form>
-						 -->
 						<div style="clear: both;"></div>
 					</div>
 					<div style="clear: both;"></div>
@@ -160,6 +142,11 @@
 </body>
 
 <script>
+
+	function closeform() {
+		window.document.forms[0].submit();
+		window.close();
+	}
 	function submit() {
 		//var url = "page4";
 		//alert("test");
@@ -193,10 +180,10 @@
 	function checkPaymentStatus(auto) {
 		//alert("test2");
 
-		var merchantTranxRefNo = $('#e_MerchantTranxRefNo').val();
-		var merchantNo = $('#e_MerchantNo').val();
-		var orderNo = $('#e_OrderNo').val();
-		var amount = $('#e_Amount').val();
+		/* var merchantTranxRefNo = $('#e_MerchantTranxRefNo').val(); */
+		var merchantNo = $('#eMerchantNo').val();
+		var orderNo = $('#eOrderNo').val();
+		var amount = $('#eAmount').val();
 		//alert("merchantNo : "+merchantNo);
 		/*
 		var data = 'firstname='
@@ -207,8 +194,7 @@
 		$
 				.ajax({
 					url : $("#status").attr("action"),
-					data : "merchantTranxRefNo=" + merchantTranxRefNo
-							+ "&merchantNo=" + merchantNo + "&orderNo="
+					data : "merchantNo=" + merchantNo + "&orderNo="
 							+ orderNo + "&amount=" + amount,
 					type : "POST",
 
@@ -219,8 +205,8 @@
 							$('#info')
 									.html(
 											"STATUS :   PAYMENT COMPLETED SUCCESSFULLY ");
-							$('input[name="e_DateTime"]').val(response);
-							$('input[name="e_DateTime1"]').val(response);
+							//$('input[name="eTransactionDateTime"]').val(response);
+							$('input[name="eTransactionDateTime1"]').val(response);
 							printWindow();
 
 							//var url="/ezecom/merchantHome.jsp";
@@ -280,12 +266,13 @@
 	        display.text(minutes + ":" + seconds);
 
 	        if (--timer < 0) {
+	        	display.text("00:00");
+	        	window.document.forms[0].submit();
 	        	$('#info').html("<B>STATUS: PAYMENT TIMEOUT.<B>");
 	            //timer = duration;
 	        	setTimeout(function() {
 	    			clearInterval(showTimeInterval);
 	    		}, 0);
-	        	//display.text("00:00");
 	        }
 	    }, 1000);
 	} 

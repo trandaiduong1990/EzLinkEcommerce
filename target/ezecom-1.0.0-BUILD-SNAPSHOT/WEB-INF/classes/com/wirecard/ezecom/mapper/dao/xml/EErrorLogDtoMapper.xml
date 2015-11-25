@@ -25,7 +25,7 @@
   <selectKey order="BEFORE" keyProperty="errorlogid" resultType="String">
    select SEQ_ERRORLOGID.nextval from dual
   </selectKey>
-    insert into EZLINK.EERRORLOG (ERRORLOGID, DATETIME, MERCHANT_TRANX_DATE, 
+    insert into EZDBMAN.EERRORLOG (ERRORLOGID, DATETIME, MERCHANT_TRANX_DATE, 
       VERSION, TRANXCODE, MERCHANT_NO, 
       MERCHANT_REFNO, ORDER_NO, ORDER_INFO, 
       AMOUNT, CURRENCY, SECUREHASH_TYPE, 
@@ -41,7 +41,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wirecard.ezecom.dto.EErrorLogDto" >
-    insert into EZLINK.EERRORLOG
+    insert into EZDBMAN.EERRORLOG
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="errorlogid != null" >
         ERRORLOGID,

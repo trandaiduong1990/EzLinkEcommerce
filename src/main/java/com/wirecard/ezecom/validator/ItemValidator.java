@@ -2,12 +2,14 @@ package com.wirecard.ezecom.validator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+
 
 
 
@@ -38,9 +40,6 @@ public class ItemValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "orderNo",
 				"required.orderNo", "Field name is required.");
 		
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "merchantTranxRefNo",
-				"required.merchantTranxRefNo", "Field name is required.");
-		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "merchantNo",
 				"required.merchantNo", "Field name is required.");
 		
@@ -50,11 +49,11 @@ public class ItemValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "transactionCode",
 				"required.transactionCode", "Field name is required.");
 		
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "hashAlgo",
-				"required.hashAlgo", "Field name is required.");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "payBy",
+				"required.payBy", "Field name is required.");
 		
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "hashValue",
-				"required.hashValue", "Field name is required.");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "currency",
+				"required.currency", "Field name is required.");
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateTime",
 				"required.dateTime", "Field name is required.");
@@ -73,8 +72,8 @@ public class ItemValidator implements Validator {
 	
 	public void validateAmount(String amount, Errors errors) {
 		try{
-		Double amt=Double.valueOf(amount).doubleValue();
-		if((amt< 0.0)){
+		Double amt=Double.parseDouble(amount);
+		if((amt<= 0.0) && (amt > 500.0)){
 			errors.rejectValue("amount", "notmatch.amount");
 		}
 		}
@@ -86,14 +85,19 @@ public class ItemValidator implements Validator {
 	
 	public Date validateDate(String dateToValdate, Errors errors) {
 		//String dateInString = new java.text.SimpleDateFormat("DDMMYYYYHHMISS").format(dateToValdate);
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HHmmss");
+		SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyyHHmmss");
+//		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HHmmss");
 		formatter.setLenient(false);
 		 
 		Date parsedDate = null;
 		try {
-			Date maxDate = formatter.parse("31-12-2099 000000");
+			Date dateNow = new Date();
 			parsedDate = formatter.parse(dateToValdate);
-			if(parsedDate.after(maxDate)){
+			Calendar cal1 = Calendar.getInstance();
+			cal1.setTime(dateNow);
+			Calendar cal2 = Calendar.getInstance();
+			cal2.setTime(parsedDate);
+			if(!isSameDay(cal1, cal2)){
 				throw new Exception();
 			}
 			System.out.println("++validated DATE TIME ++"+formatter.format(parsedDate));
@@ -103,5 +107,14 @@ public class ItemValidator implements Validator {
 		}
 		return parsedDate;
 	}
+	
+	 public boolean isSameDay(Calendar cal1, Calendar cal2) {
+	      if (cal1 == null || cal2 == null) {
+	          return false;
+	      }
+	      return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA) &&
+	              cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+	              cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR));
+	  }
 
 }

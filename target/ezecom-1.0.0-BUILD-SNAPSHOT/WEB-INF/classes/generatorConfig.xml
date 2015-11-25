@@ -12,9 +12,9 @@
 		</commentGenerator>
 
 		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
-			connectionURL="jdbc:oracle:thin:@localhost:1521:orcl" userId="ezlink"
+			connectionURL="jdbc:oracle:thin:@192.168.5.40:1521:orcl" userId="ezdbman"
 			
-			password="ezlink">
+			password="ezdbman">
 		</jdbcConnection>
 		
 		<javaTypeResolver>
@@ -34,9 +34,13 @@
 			targetPackage="com.wirecard.ezecom.mapper.dao" targetProject="../EzLinkEcommerce/src/main/java/">
 		</javaClientGenerator>
 
-	
-		<!-- 
-		<table tableName="MERCHANT" schema="EZLINK" domainObjectName="MerchantDto" enableSelectByExample="false" enableDeleteByExample="false"
+		<table tableName="ETRANXLOG" schema="EZDBMAN" domainObjectName="ETranxLogDto" enableSelectByExample="false" enableDeleteByExample="false"
+			enableCountByExample="false" enableUpdateByExample="false"
+			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
+			modelType="flat">
+		</table>
+		
+		<!-- <table tableName="MERCHANT" schema="EZLINK" domainObjectName="MerchantDto" enableSelectByExample="false" enableDeleteByExample="false"
 			enableCountByExample="false" enableUpdateByExample="false"
 			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
 			modelType="flat">
@@ -49,11 +53,7 @@
 		</table>
 			
 		
-		<table tableName="ETRANXLOG" schema="EZLINK" domainObjectName="ETranxLogDto" enableSelectByExample="false" enableDeleteByExample="false"
-			enableCountByExample="false" enableUpdateByExample="false"
-			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
-			modelType="flat">
-		</table>
+		
 		
 		<table tableName="ETRANXCODE" schema="EZLINK" domainObjectName="ETranxCodeDto" enableSelectByExample="false" enableDeleteByExample="false"
 			enableCountByExample="false" enableUpdateByExample="false"
@@ -78,10 +78,5 @@
 			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
 			modelType="flat">
 		</table> -->
-		<table tableName="V_EZ_BLACKLIST" schema="EZLINK" domainObjectName="ViewEZBlacklistDto" enableSelectByExample="false" enableDeleteByExample="false"
-			enableCountByExample="false" enableUpdateByExample="false"
-			selectByExampleQueryId="false" selectByPrimaryKeyQueryId="false"
-			modelType="flat">
-		</table>
 	</context>
 </generatorConfiguration>

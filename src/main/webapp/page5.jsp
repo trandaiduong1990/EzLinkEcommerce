@@ -43,8 +43,6 @@
 	<table class="center" cellpadding="10">	
 	<tr><td style="text-align: right;">Merchant No : </td><td><div id="merchNo"></div></td></tr>
 	<tr></tr>	
-	<tr><td style="text-align: right;">Merchant Ref No : </td><td><div id="merchRefNo"></div></td></tr>
-	<tr></tr>
 	<tr><td style="text-align: right;">Order No : </td><td><div id="orderNo"></div></td></tr>
 	<tr></tr>		
 	<tr><td style="text-align: right;">Amount (SGD) : </td><td><div id="amount"></div></td></tr>
@@ -108,15 +106,15 @@ function closeMe()
 function initializeMainDiv() {
 	
 	document.getElementById("merchNo").innerHTML = 
-    window.opener.document.getElementById("e_MerchantNo").value;
-	document.getElementById("merchRefNo").innerHTML = 
-    window.opener.document.getElementById("e_MerchantTranxRefNo").value;
+    window.opener.document.getElementById("eMerchantNo").value;
+	/* document.getElementById("merchRefNo").innerHTML = 
+    window.opener.document.getElementById("e_MerchantTranxRefNo").value; */
 	document.getElementById("orderNo").innerHTML =
-    window.opener.document.getElementById("e_OrderNo").value;
+    window.opener.document.getElementById("eOrderNo").value;
 	document.getElementById("amount").innerHTML = 
-    window.opener.document.getElementById("e_Amount").value;
+    window.opener.document.getElementById("eAmount").value;
 	document.getElementById("dateTime").innerHTML = 
-    window.opener.document.getElementById("e_DateTime").value;
+    window.opener.document.getElementById("eTransactionDateTime1").value;
 	 
 	 
 	//window.opener.document.getElementId("payment").submit();

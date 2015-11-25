@@ -15,13 +15,19 @@
 <link href='http://fonts.googleapis.com/css?family=Open+Sans'
 	rel='stylesheet' type='text/css'>
 </head>
+<script type = "text/javascript" >
+    history.pushState(null, null, 'success.jsp');
+    window.addEventListener('popstate', function(event) {
+    history.pushState(null, null, 'success.jsp');
+    });
+</script>
 <body>
 	<div class="container">
 
 		<div class="wrapper">
 
 			<div class="content">
-				<form id="payment" method="post" action="/ezecom/merchantHome.jsp">
+				<form id="payment" method="post"  action="/ezecom/merchantHome.jsp">
 					<div class="" style="width: 20%; float: left;">
 						<div>
 							<img src="${request.contextPath}img/wirecard.jpg"
@@ -70,7 +76,7 @@
 							<tr>
 								<td style="text-align: left;"><B>Merchant Tranx. Ref No :</B></td>
 								<td>${item.merchantTranxRefNo}</td>
-								<td style="text-align: right;"><B>Oreder Number :</B></td>
+								<td style="text-align: right;"><B>Order Number :</B></td>
 								<td>${item.orderNo}</td>
 							</tr>
 							
@@ -94,36 +100,38 @@
 						</div>
 						
 						
-				<input type="hidden" name="e_MerchantName" value="${item.merchantName}" />
-			  	<input type="hidden" name="e_MerchantNo" value="${item.merchantNo}" />
-			  	<input type="hidden" name="e_AccessCode" value="${item.accessCode}" />
+				<input type="hidden" name="eMerchantName" value="${item.merchantName}" />
+			  	<input type="hidden" name="eMerchantNo" value="${item.merchantNo}" />
+			  	<input type="hidden" name="eAccessCode" value="${item.accessCode}" />
 			  	
-			  	<input type="hidden" name="e_OrderNo" value="${item.orderNo}" />
+			  	<input type="hidden" name="eOrderNo" value="${item.orderNo}" />
 			  	<input type="hidden" name="e_MerchantTranxRefNo" value="${item.merchantTranxRefNo}" />
-			  	<input type="hidden" name="e_TransactionCode" value="COT" />
-			  	<input type="hidden" name="e_DateTime" value="12-11-2012 121212" />
-			  	<input type="hidden" name="e_PayBy" value="eZlink" />
-			  	<input type="hidden" name="e_HashAlgo" value="SHA256" />
-			  	<input type="hidden" name="e_Amount" value="${item.amount}"/>
-			  	<input type="hidden" name="e_HashValue" value="${param.e_HashValue}"/>
-			  	<input type="hidden" name="e_DateTime1" id="e_DateTime1" value=""/>
+			  	<input type="hidden" name="eTransactionCode" value="COT" />
+			  	<input type="hidden" name="eTransactionDateTime" value="12-11-2012 121212" />
+			  	<input type="hidden" name="ePay" value="eZlink" />
+			  	<input type="hidden" name="eHashAlgorithm" value="SHA256" />
+			  	<input type="hidden" name="eAmount" value="${item.amount}"/>
+			  	<input type="hidden" name="eHash" value="${param.eHash}"/>
+			  	<input type="hidden" name="eTransactionDateTime1" id="eTransactionDateTime1" value=""/>
 
-						<p class="title"><B>Step 3: Once Payment completed via Mobile Application
-						Please Click on Next button</B></p>
+						<p class="title"><B>Step 3: Once Payment completed via Mobile Application.
+						Please click on "Next" button if confirmation receipt is not pop-up</B></p>
 						</form>
 						<form id="status" method="post" action="/ezecom/check.htm"> 
 						<!--<form id="status" method="post" action="/ezecom-1.0.0-BUILD-SNAPSHOT/check.htm"> -->
 						<table>
 						
+						<tr><td colspan="2"><span class="title"><B>Transaction timeout: </B></span><span id="time" style="color: red;font-size: 12pt;"></span></td></tr>
+						 
 						 <tr><td colspan="2"><div  id="info" align="center" style="color: red;font-size: 12pt;"></div></td></tr>
 						
 						
 						</table>
 						<input type="hidden" name="e_MerchantTranxRefNo" id="e_MerchantTranxRefNo" value="${item.merchantTranxRefNo}" />
-						<input type="hidden" name="e_MerchantNo" id="e_MerchantNo" value="${item.merchantNo}" />
-						<input type="hidden" name="e_OrderNo" id="e_OrderNo" value="${item.orderNo}" />
-						<input type="hidden" name="e_Amount" id="e_Amount" value="${item.amount}"/>
-						<input type="hidden" name="e_DateTime" id="e_DateTime" value=""/>
+						<input type="hidden" name="eMerchantNo" id="eMerchantNo" value="${item.merchantNo}" />
+						<input type="hidden" name="eOrderNo" id="eOrderNo" value="${item.orderNo}" />
+						<input type="hidden" name="eAmount" id="eAmount" value="${item.amount}"/>
+						<input type="hidden" name="eTransactionDateTime" id="eTransactionDateTime" value=""/>
 						<div style="text-align: center;">
 							<a href="#" class="button red" onclick="submit();">Next</a> <a
 								href="#" class="button">Cancel</a>
@@ -134,9 +142,9 @@
 						<form id="reciept" method="post" action="/page5.jsp" target="TheWindow">
 						
 						<input type="hidden" name="e_MerchantTranxRefNo" id="e_MerchantTranxRefNo" value="${item.merchantTranxRefNo}" />
-						<input type="hidden" name="e_MerchantNo" id="e_MerchantNo" value="${item.merchantNo}" />
-						<input type="hidden" name="e_OrderNo" id="e_OrderNo" value="${item.orderNo}" />
-						<input type="hidden" name="e_Amount" id="e_Amount" value="${item.amount}"/>
+						<input type="hidden" name="eMerchantNo" id="eMerchantNo" value="${item.merchantNo}" />
+						<input type="hidden" name="eOrderNo" id="eOrderNo" value="${item.orderNo}" />
+						<input type="hidden" name="eAmount" id="eAmount" value="${item.amount}"/>
 						
 						
 						</form>
@@ -160,90 +168,126 @@
 		//$("form#status").attr('action', url);
 		//$("form#status").submit();
 	}
-	
+
 	var timeout = false;
 	var checkStatus = true;
-	
+
 	$(document).ready(function() {
-		var interval = setInterval(function(){ if(checkStatus==true) {checkPaymentStatus(true); }}, 5000);
-		setTimeout(function(){ 
+		var fiveMinutes = 240,
+		display = $('#time');
+		startTimer(fiveMinutes, display);
+		
+		var interval = setInterval(function() {
+			if (checkStatus == true) {
+				checkPaymentStatus(true);
+			}
+		}, 5000);
+		setTimeout(function() {
 			timeout = true;
 			clearInterval(interval);
-			$('#info').html("<B>STATUS: PAYMENT TIMEOUT.<B>"); }, 130000);
+		}, 240000);
 	});
 	//$(document).ready(function() {
-		//$('#status').submit(
-			//function(event) {
-				function checkPaymentStatus(auto){
-					//alert("test2");
-					
-					var merchantTranxRefNo=$('#e_MerchantTranxRefNo').val();
-					var merchantNo=$('#e_MerchantNo').val();
-					var orderNo=$('#e_OrderNo').val();
-					var amount=$('#e_Amount').val();
-					//alert("merchantNo : "+merchantNo);
-					/*
-					var data = 'firstname='
-						+ encodeURIComponent('myfirst')
-						+ '&amp;lastname='
-						+ encodeURIComponent('myLast');
-						alert($("#status").attr("action"));*/
-				$.ajax({
+	//$('#status').submit(
+	//function(event) {
+	function checkPaymentStatus(auto) {
+		//alert("test2");
+
+		var merchantTranxRefNo = $('#e_MerchantTranxRefNo').val();
+		var merchantNo = $('#eMerchantNo').val();
+		var orderNo = $('#eOrderNo').val();
+		var amount = $('#eAmount').val();
+		//alert("merchantNo : "+merchantNo);
+		/*
+		var data = 'firstname='
+			+ encodeURIComponent('myfirst')
+			+ '&amp;lastname='
+			+ encodeURIComponent('myLast');
+			alert($("#status").attr("action"));*/
+		$
+				.ajax({
 					url : $("#status").attr("action"),
-					data :"merchantTranxRefNo=" + merchantTranxRefNo +"&merchantNo=" + merchantNo +"&orderNo=" + orderNo +"&amount=" + amount,
+					data : "merchantTranxRefNo=" + merchantTranxRefNo
+							+ "&merchantNo=" + merchantNo + "&orderNo="
+							+ orderNo + "&amount=" + amount,
 					type : "POST",
-	 
+
 					success : function(response) {
-						if(response!="0"){
+						if (response != "0") {
 							checkStatus = false;
-						//$('#info').html("STATUS :   PAYMENT COMPLETED SUCCESSFULLY " +response);
-						$('#info').html("STATUS :   PAYMENT COMPLETED SUCCESSFULLY ");
-						$('input[name="e_DateTime"]').val(response);
-						$('input[name="e_DateTime1"]').val(response);
-						printWindow();
-						
-						//var url="/ezecom/merchantHome.jsp";
-						//$("form#payment").attr('action', url);
-						//$("form#payment").submit();
-						
-						//alert(response);
-						}
-						else if(auto == false && timeout == false){
-							$('#info').html("<B>STATUS :  YOUR PAYMENT HAS NOT COMPLETED YET - PLEASE PROCEEED WITH STEP 2 AGAIN </B> ");	
+							//$('#info').html("STATUS :   PAYMENT COMPLETED SUCCESSFULLY " +response);
+							$('#info')
+									.html(
+											"STATUS :   PAYMENT COMPLETED SUCCESSFULLY ");
+							$('input[name="eTransactionDateTime"]').val(response);
+							$('input[name="eTransactionDateTime1"]').val(response);
+							printWindow();
+
+							//var url="/ezecom/merchantHome.jsp";
+							//$("form#payment").attr('action', url);
+							//$("form#payment").submit();
+
+							//alert(response);
+						} else if (auto == false && timeout == false) {
+							$('#info')
+									.html(
+											"<B>STATUS :  YOUR PAYMENT HAS NOT COMPLETED YET - PLEASE PROCEEED WITH STEP 2 AGAIN </B> ");
 						}
 					},
 					error : function(xhr, status, error) {
-						//alert( "failed" );
+						alert( "failed" );
 						//alert(xhr.responseText);
-						if(auto == false && timeout == false) {
-							$('#info').html("<B>FAILED - PLEASE PROCEED WITH STEP 2 AGAIN </B> ");
+						if (auto == false && timeout == false) {
+							$('#info')
+									.html(
+											"<B>FAILED - PLEASE PROCEED WITH STEP 2 AGAIN </B> ");
 						}
 					}
-					
+
 				});
-						
-				return false;
-				}
-			//});
-		//});
-	
-				function printWindow() {
-					//alert("clear interval");
-					
-					var w = window.open('page5.jsp', 'mywindow', 'width=800, height=500');
-					//var url="/ezecom/merchantHome.jsp";
-					//$("form#payment").attr('action', url);
-					//$("form#payment").submit();
-					//window.open('', 'TheWindow');
-					//document.getElementById('reciept').submit();
-					
-					//alert("Redirecting to Merchant...");
-					//var url="/ezecom/merchantHome.jsp";
-					//	$("form#payment").attr('action', url);
-					//	$("form#payment").submit();
-					
-				}
-				
-				
+
+		return false;
+	}
+	//});
+	//});
+
+	function printWindow() {
+		//alert("clear interval");
+
+		var w = window.open('page5.jsp', 'mywindow', 'width=800, height=500');
+		//var url="/ezecom/merchantHome.jsp";
+		//$("form#payment").attr('action', url);
+		//$("form#payment").submit();
+		//window.open('', 'TheWindow');
+		//document.getElementById('reciept').submit();
+
+		//alert("Redirecting to Merchant...");
+		//var url="/ezecom/merchantHome.jsp";
+		//	$("form#payment").attr('action', url);
+		//	$("form#payment").submit();
+
+	}
+
+	function startTimer(duration, display) {
+	    var timer = duration, minutes, seconds;
+	    showTimeInterval = setInterval(function () {
+	        minutes = parseInt(timer / 60, 10);
+	        seconds = parseInt(timer % 60, 10);
+
+	        minutes = minutes < 10 ? "0" + minutes : minutes;
+	        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+	        display.text(minutes + ":" + seconds);
+
+	        if (--timer < 0) {
+	        	$('#info').html("<B>STATUS: PAYMENT TIMEOUT.<B>");
+	            //timer = duration;
+	        	setTimeout(function() {
+	    			clearInterval(showTimeInterval);
+	    		}, 0);
+	        	//display.text("00:00");
+	        }
+	    }, 1000);
+	} 
 </script>
 </html>
